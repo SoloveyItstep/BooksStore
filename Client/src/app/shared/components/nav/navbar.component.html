@@ -1,0 +1,74 @@
+<div class="d-flex justify-content-around nav-top">
+  <!--Logo panel-->
+  <div class="d-flex" id="nightingale" routerLink="{{langService.currentLang}}/">
+    <div id="logo-body"></div>
+    <div id="tail" ></div>
+    <div id="beak"></div>
+    <div id="logo-click-block"></div>
+  </div>
+
+  <!--about panel-->
+  <div class="d-flex flex-column" id="nav-info-panel">
+    <span class="link" routerLink="{{langService.currentLang}}/about-us">про нас</span>
+    <span class="link" routerLink="{{langService.currentLang}}/delivery">доставка</span>
+    <span class="link" routerLink="{{langService.currentLang}}/payment">оплата</span>
+    <div class="d-flex justify-content-between nav-group">
+      <span class="link" (click)="changeLanguage('ua')">укр</span>
+      <span class="link" (click)="changeLanguage('en')">en</span>
+    </div>
+  </div>
+
+  <!--books type panel-->
+  <div class="d-flex flex-column" id="nav-books-type-panel">
+    <span class="link nav-books-type-blue">е-книги</span>
+    <span class="link nav-books-type-blue">аудіо книги</span>
+    <span class="link nav-books-type-pink">друковані книги</span>
+  </div>
+
+  <!--account panel-->
+  <div class="d-flex flex-column" id="account-panel">
+    <div class="d-flex justify-content-around" id="account-logos">
+      <div id="favorite-panel">
+        favorite
+      </div>
+      <div id="cart-panel">
+        cart
+      </div>
+      <div class="link" id="account-panel" routerLink="{{langService.currentLang}}/account">
+        account
+      </div>
+    </div>
+    <div class="link" id="register-link" routerLink="{{langService.currentLang}}/register">зареєструватися</div>
+  </div>
+
+</div>
+
+
+
+
+
+<!--<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">Books store</a>
+    <form *ngIf="!(currentUser | async)" #loginForm="ngForm" class="form-inline my-2 my-lg-0 d-flex" (ngSubmit)="login()" autocomplete="off">
+      <input class="form-control mr-sm-2"
+             name="username"
+             [(ngModel)]="model.username"
+             type="text"
+             placeholder="Username"
+             aria-label="Username">
+      <input class="form-control mr-sm-2"
+             name="password"
+             [(ngModel)]="model.password"
+             type="password"
+             placeholder="Password"
+             aria-label="Password"
+             autocomplete="off">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+    </form>
+    <div class="form-inline my-2 my-lg-0 d-flex" *ngIf="currentUser | async">
+      <div style="margin-right: 10px;">{{(currentUser | async)?.username}}</div>
+      <button class="btn btn-success" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</nav>-->

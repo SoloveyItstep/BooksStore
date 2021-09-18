@@ -1,0 +1,165 @@
+@import "../../styles/constants.scss";
+
+@mixin booksTypeLinks($txtColor) {
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 25px;
+  line-height: 31px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $txtColor;
+  margin-bottom: 15px;
+}
+
+@mixin birdText($txtColor) {
+  position: absolute;
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 30px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transform: rotate(-20.07deg);
+  z-index: 10;
+  cursor: pointer;
+  display: table-row;
+  color: $txtColor;
+}
+
+.nav-top {
+  margin-bottom: 50px;
+  padding-top: 40px;
+  margin-left: 100px;
+}
+
+#nightingale {
+  width: 140px;
+  height: 130px;
+  border-radius: 150px;
+  overflow: visible;
+}
+
+#logo-body {
+  border-radius: 50%;
+  width: 121.29px;
+  height: 119.74px;
+  background-color: $pinkColor;
+
+  &:before {
+    @include birdText(#FFFFFF);
+    content: 'bird';
+    margin-top: 38px;
+    margin-left: 20px;
+  }
+
+  &:after {
+    @include birdText(#27365A);
+    content: 'book';
+    margin-top: 60px;
+    margin-left: 22px;
+  }
+}
+
+#tail {
+  margin-left: -126px;
+  margin-top: 50px;
+  width: 131.51px;
+  height: 131.51px;
+  overflow: hidden;
+  transform: rotate(-13.8deg);
+
+  &:after {
+    position: relative;
+    display: block;
+    content: "";
+    width: 141.51px;
+    height: 141.51px;
+    background: $pinkColor;
+    border-radius: 50%;
+    margin-top: -50%;
+    overflow: hidden;
+  }
+
+  &:hover:after{
+      cursor: pointer;
+  }
+}
+
+#beak {
+  width: 0;
+  height: 0;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-bottom: 30px solid $pinkColor;
+  margin-left: -20px;
+  margin-top: 30px;
+  transform: rotate(80deg);
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+#logo-click-block {
+  position: absolute;
+  background: transparent;
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  margin-left: -6px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+#nav-info-panel{
+  margin-top: 10px;
+}
+
+.nav-about-link {
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $textColor;
+}
+
+#nav-books-type-panel {
+  margin-top: 5px;
+}
+
+.nav-books-type-blue {
+  @include booksTypeLinks($textColor);
+}
+
+.nav-books-type-pink {
+  @include booksTypeLinks($pinkColor);
+}
+
+#account-panel{
+  
+}
+
+#account-logos {
+  width: 180px;
+}
+
+#favorite-panel {
+
+}
+
+#register-link{
+  margin-left: 15%;
+}
+
+@media (max-width: 1000px){
+  .nav-top {
+    margin-left: 30px;
+  }
+}

@@ -1,0 +1,5 @@
+<div><h1>BOOKS LIST WORKS!</h1></div>
+<div *ngFor="let book of books| async" style="border: solid lightgray .5px; width: 400px;">
+  <h2>{{book.title}}</h2>
+  <span>{{book.price}}</span>
+</div>
