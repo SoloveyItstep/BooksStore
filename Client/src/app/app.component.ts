@@ -1,6 +1,7 @@
 import { Route } from '@angular/compiler/src/core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationStart, Router, Routes } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { AppInsightsService } from './middleware/applicationInsightsService';
 import { LanguageService } from './middleware/language.service';
@@ -14,8 +15,12 @@ export class AppComponent implements OnInit, OnDestroy {
   title: string = 'Books store';
   private routerSubscription: Subscription | undefined;
 
-  constructor(private readonly appInsights: AppInsightsService, private readonly router: Router) {
+  constructor(private readonly appInsights: AppInsightsService,
+              private readonly router: Router,
+              private readonly translate: TranslateService) {
     this.appInsights.trackPage({ name: 'App loaded', pageType: 'main', uri: '/' });
+    this.translate.addLangs(LanguageService.languageList);
+    this.translate.setDefaultLang(LanguageService.lang);
   }
     
   ngOnInit(): void {

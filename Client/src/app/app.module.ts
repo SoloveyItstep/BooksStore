@@ -2,7 +2,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BooksService } from './services/books.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { NavbarComponent } from './shared/components/nav/navbar.component';
 import { FormsModule } from '@angular/forms'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,6 +24,8 @@ import { DeliveryComponent } from './components/about-components/delivery/delive
 import { PaymentInfoComponent } from './components/about-components/payment-info/payment-info.component';
 import { LanguageService } from './middleware/language.service';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,13 @@ import { PageNotFoundComponent } from './shared/components/page-not-found/page-n
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right'
+    }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslateLoader,
+        deps: [HttpClient]
+      }
     })
   ],
   providers: [
@@ -62,3 +71,7 @@ import { PageNotFoundComponent } from './shared/components/page-not-found/page-n
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function httpTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
