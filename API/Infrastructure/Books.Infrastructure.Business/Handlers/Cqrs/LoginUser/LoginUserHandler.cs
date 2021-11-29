@@ -17,7 +17,9 @@ namespace Books.Infrastructure.Business.Handlers.Cqrs.LoginUser
     {
         private readonly DataContext _context;
         private readonly ITokenService _tokenService;
-        
+        private readonly string logginErrorMessage = "Username or password is not valid";
+
+
         public LoginUserHandler(DataContext context, ITokenService tokenService)
         {
             this._context = context;
@@ -29,14 +31,14 @@ namespace Books.Infrastructure.Business.Handlers.Cqrs.LoginUser
             var user = await _context.ApplicationUsers.FirstOrDefaultAsync(x => x.UserName.ToLower() == request.UserName.ToLower(), cancellationToken);
             if(user == null)
             {
-                return new UserDto { Error = "Username or password is not valid" };
+                return new UserDto { Error = logginErrorMessage };
             }
             using var hmac = new HMACSHA512(user.PasswordSalt);
             var computeHash = await hmac.ComputeHashAsync(new MemoryStream(Encoding.UTF8.GetBytes(request.Password)), cancellationToken).ConfigureAwait(false);
 
             if (!StructuralComparisons.StructuralEqualityComparer.Equals(user.PasswordHash, computeHash))
             {
-                return new UserDto { Error = "Username or password is not valid" };
+                return new UserDto { Error = logginErrorMessage };
             }
 
             return new UserDto { UserName = request.UserName, Token = _tokenService.CreateToken(request.UserName) };

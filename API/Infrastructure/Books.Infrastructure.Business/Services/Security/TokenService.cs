@@ -17,6 +17,7 @@ namespace Books.Infrastructure.Business.Services.Security
         {
             this._key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtConfig:TokenKey"]));
         }
+
         public string CreateToken(string userName)
         {
             var claims = new List<Claim>

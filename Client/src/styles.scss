@@ -1,3 +1,33 @@
+@font-face{
+    font-family: 'Mulish';
+    src: local('Mulish'), url('./assets/fonts/Mulish/Mulish-Black.ttf') format('truetype')
+}
+
+@font-face {
+  font-family: 'Mulish-Regular';
+  src: local('Mulish-Regular'), url('./assets/fonts/Mulish/Mulish-Regular.ttf') format('truetype')
+}
+
+@font-face {
+  font-family: 'Mulish-BlackItalic';
+  src: local('Mulish-BlackItalic'), url('./assets/fonts/Mulish/Mulish-BlackItalic.ttf') format('truetype')
+}
+
+@font-face {
+  font-family: 'Mulish-Bold';
+  src: local('Mulish-Bold'), url('./assets/fonts/Mulish/Mulish-Bold.ttf') format('truetype')
+}
+
+@font-face {
+  font-family: 'Mulish-BlackItalic';
+  src: local('Mulish-BlackItalic'), url('./assets/fonts/Mulish/Mulish-BlackItalic.ttf') format('truetype')
+}
+
+@font-face {
+  font-family: 'Mulish-BlackItalic';
+  src: local('Mulish-BlackItalic'), url('./assets/fonts/Mulish/Mulish-BlackItalic.ttf') format('truetype')
+}
+
 .link{
   cursor: pointer;
   text-decoration: none;
