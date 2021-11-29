@@ -26,6 +26,7 @@ import { LanguageService } from './middleware/language.service';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     AboutUsComponent,
     DeliveryComponent,
     PaymentInfoComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    FooterComponent
   ],
   imports: [
     BooksRoutingModule,

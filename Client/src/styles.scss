@@ -28,11 +28,19 @@
   src: local('Mulish-BlackItalic'), url('./assets/fonts/Mulish/Mulish-BlackItalic.ttf') format('truetype')
 }
 
-.link{
+.link {
   cursor: pointer;
   text-decoration: none;
+  color: #27365A;
+
+  &:hover {
+    color: #27365A;
+  }
 }
 
+.indent-title-default {
+  //margin-left: 115px;
+}
 
 
 

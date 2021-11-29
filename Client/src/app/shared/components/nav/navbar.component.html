@@ -29,16 +29,18 @@
   <div class="d-flex flex-column" id="account-panel">
     <div class="d-flex justify-content-around" id="account-logos">
       <div id="favorite-panel">
-        favorite
+        {{'favorite' | translate}}
       </div>
       <div id="cart-panel">
-        cart
+        {{'cart' | translate}}
       </div>
       <div class="link" id="account-panel" routerLink="{{langService.currentLang}}/account">
-        account
+        {{'account' | translate}}
       </div>
     </div>
-    <div class="link" id="register-link" routerLink="{{langService.currentLang}}/register">зареєструватися</div>
+    <div class="link" id="register-link" routerLink="{{langService.currentLang}}/register">
+      {{'register' | translate}}
+    </div>
   </div>
 
 </div>
