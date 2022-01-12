@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{28F92B
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Client", "Client\", "{EC5BDDB0-4F36-463E-8CF7-E58D7F1CCA5D}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_20613"
 		Debug.AspNetCompiler.PhysicalPath = "Client\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_20613\"
@@ -32,19 +32,19 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Client", "Client\", "{EC5BD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{D04CC50F-125B-467E-8D6D-8F5025D0F28D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.Domain.Core", "API\Domain\Books.Domain.Core\Books.Domain.Core.csproj", "{E92242ED-BE7A-41AC-8363-3BE69E39BC05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Domain.Core", "API\Domain\Books.Domain.Core\Books.Domain.Core.csproj", "{E92242ED-BE7A-41AC-8363-3BE69E39BC05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.Domain.Interfaces", "API\Domain\Books.Domain.Interfaces\Books.Domain.Interfaces.csproj", "{C8C28531-EF1D-4643-9049-AA65699130EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Domain.Interfaces", "API\Domain\Books.Domain.Interfaces\Books.Domain.Interfaces.csproj", "{C8C28531-EF1D-4643-9049-AA65699130EC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{F74F4507-4D9C-4BFC-823D-B58A4C471ABE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.Services.Interfaces", "API\Services\Books.Services.Interfaces\Books.Services.Interfaces.csproj", "{810BCA65-7CD8-4E79-A5A3-287A1B29063D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Services.Interfaces", "API\Services\Books.Services.Interfaces\Books.Services.Interfaces.csproj", "{810BCA65-7CD8-4E79-A5A3-287A1B29063D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{4E86AE04-703E-4C02-B06E-B206F9FE6F81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.Infrastructure.Data", "API\Infrastructure\Books.Infrastructure.Data\Books.Infrastructure.Data.csproj", "{8AF95857-BCA7-416A-BB99-C7F428C314AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Infrastructure.Data", "API\Infrastructure\Books.Infrastructure.Data\Books.Infrastructure.Data.csproj", "{8AF95857-BCA7-416A-BB99-C7F428C314AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.Infrastructure.Business", "API\Infrastructure\Books.Infrastructure.Business\Books.Infrastructure.Business.csproj", "{D95AC10D-8A9B-4AD8-9CF0-7045DC79ED1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Infrastructure.Business", "API\Infrastructure\Books.Infrastructure.Business\Books.Infrastructure.Business.csproj", "{D95AC10D-8A9B-4AD8-9CF0-7045DC79ED1B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

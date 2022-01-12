@@ -9,19 +9,19 @@
 
   <!--about panel-->
   <div class="d-flex flex-column" id="nav-info-panel">
-    <span class="link" routerLink="{{langService.currentLang}}/about-us">про нас</span>
-    <span class="link" routerLink="{{langService.currentLang}}/delivery">доставка</span>
-    <span class="link" routerLink="{{langService.currentLang}}/payment">оплата</span>
+    <span class="link" routerLink="{{langService.currentLang}}/about-us">{{'aboutUs' | translate}}</span>
+    <span class="link" routerLink="{{langService.currentLang}}/delivery">{{'delivery' | translate}}</span>
+    <span class="link" routerLink="{{langService.currentLang}}/payment">{{'payment' | translate}}</span>
     <div class="d-flex justify-content-between nav-group">
-      <span class="link" (click)="changeLanguage('ua')">укр</span>
+      <span class="link" (click)="changeLanguage('uk')">{{'lang-uk' | translate}}</span>
       <span class="link" (click)="changeLanguage('en')">en</span>
     </div>
   </div>
 
   <!--books type panel-->
   <div class="d-flex flex-column" id="nav-books-type-panel">
-    <span class="link nav-books-type-blue">е-книги</span>
-    <span class="link nav-books-type-blue">аудіо книги</span>
+    <span class="link nav-books-type-blue">{{'e-books' | translate}}</span>
+    <span class="link nav-books-type-blue">{{'audio books' | translate}}</span>
     <span class="link nav-books-type-pink">друковані книги</span>
   </div>
 
@@ -29,16 +29,18 @@
   <div class="d-flex flex-column" id="account-panel">
     <div class="d-flex justify-content-around" id="account-logos">
       <div id="favorite-panel">
-        favorite
+        {{'favorite' | translate}}
       </div>
       <div id="cart-panel">
-        cart
+        {{'cart' | translate}}
       </div>
       <div class="link" id="account-panel" routerLink="{{langService.currentLang}}/account">
-        account
+        {{'account' | translate}}
       </div>
     </div>
-    <div class="link" id="register-link" routerLink="{{langService.currentLang}}/register">зареєструватися</div>
+    <div class="link" id="register-link" routerLink="{{langService.currentLang}}/register">
+      {{'register' | translate}}
+    </div>
   </div>
 
 </div>

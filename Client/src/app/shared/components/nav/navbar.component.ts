@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { LanguageService } from '../../../middleware/language.service';
 import { LoginUser } from '../../../models/security/loginUser';
@@ -17,7 +18,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(public readonly authService: AuthService,
               public readonly langService: LanguageService,
-              private readonly router: Router) { }
+              private readonly router: Router,
+              private readonly translate: TranslateService) { }
 
   ngOnInit(): void {
     this.currentUser = this.authService.currentUser$;
@@ -37,6 +39,7 @@ export class NavbarComponent implements OnInit {
     }
     const newUrl = this.getNewLangUrl(lang);
     LanguageService.changeLanguage(lang);
+    this.translate.use(lang);
     this.router.navigate([newUrl]);
   }
 

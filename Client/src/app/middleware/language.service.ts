@@ -8,7 +8,7 @@ export class LanguageService {
   /**
    *Get all languages
    * */
-  static readonly languageList: string[] = ['ua', 'en'];
+  static readonly languageList: string[] = ['uk', 'en'];
   private static readonly currentLanguageSource = new BehaviorSubject<string>(LanguageService.getLanguage());
 
   /**
