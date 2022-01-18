@@ -1,9 +1,8 @@
 ﻿using Books.Domain.Core.DTOs;
-using Books.Domain.Core.Queries;
-using Books.Infrastructure.Data;
+using Books.Domain.Core.Queries.Users;
+using Books.Domain.Interfaces.SQL;
 using Books.Services.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using System.IO;
 using System.Security.Cryptography;
@@ -11,24 +10,25 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Books.Infrastructure.Business.Handlers.Cqrs.LoginUser
+namespace Books.Infrastructure.Business.Handlers.Cqrs.Users.LoginUser
 {
     public class LoginUserHandler : IRequestHandler<LoginUserQuery, UserDto>
     {
-        private readonly DataContext _context;
         private readonly ITokenService _tokenService;
         private readonly string logginErrorMessage = "Username or password is not valid";
+        private readonly IUserRepository _repository;
 
-
-        public LoginUserHandler(DataContext context, ITokenService tokenService)
+        public LoginUserHandler(IUserRepository repository, ITokenService tokenService)
         {
-            this._context = context;
+            this._repository = repository;
             this._tokenService = tokenService;
         }
 
         public async Task<UserDto> Handle(LoginUserQuery request, CancellationToken cancellationToken)
         {
-            var user = await _context.ApplicationUsers.FirstOrDefaultAsync(x => x.UserName.ToLower() == request.UserName.ToLower(), cancellationToken);
+            var user = await _repository
+                .Get(x => x.Email.ToLower() == request.Email.ToLower(), cancellationToken)
+                .ConfigureAwait(false);
             if(user == null)
             {
                 return new UserDto { Error = logginErrorMessage };
@@ -41,7 +41,7 @@ namespace Books.Infrastructure.Business.Handlers.Cqrs.LoginUser
                 return new UserDto { Error = logginErrorMessage };
             }
 
-            return new UserDto { UserName = request.UserName, Token = _tokenService.CreateToken(request.UserName) };
+            return new UserDto { Email = request.Email, Token = _tokenService.CreateToken(request.Email), FirstName = user.FirstName };
         }
     }
 }

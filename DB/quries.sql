@@ -21,8 +21,8 @@ create table [dbo].[Books](
 		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
 		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
 		ALLOW_ROW_LOCKS = on, -- can block row
-		ALLOW_PAGE_LOCKS = on, -- can block page
-		OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
+		ALLOW_PAGE_LOCKS = on--, -- can block page
+		--OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
 	)
 ) on [PRIMARY]  -- on [primary] - create table on file group 'primary'
 
@@ -41,11 +41,14 @@ select * from Books
 
 create table [dbo].[ApplicationUsers](
 	[Id] UNIQUEIDENTIFIER not null,
-	[UserName] nvarchar(35) not null,
+	[FirstName] nvarchar(15) not null,
+	[LastName] nvarchar(30) not null,
+	[Surename] nvarchar(30),
 	[PasswordHash] VARBINARY(MAX) not null,
 	[PasswordSalt] VARBINARY(MAX) not null,
-	[Email] varchar(255) null,
-	[Phone] varchar(14) null
+	[Email] varchar(255) not null,
+	[Phone] varchar(14) not null,
+	[Birthday] DateTime,
 	constraint [PK_ApplicationUsers] primary key clustered(  -- constraint primary key: insert only unique keys (values), clustered - sorted for more faster search by field 
 		[Id] ASC
 	)
@@ -54,8 +57,8 @@ create table [dbo].[ApplicationUsers](
 		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
 		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
 		ALLOW_ROW_LOCKS = on, -- can block row
-		ALLOW_PAGE_LOCKS = on, -- can block page
-		OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
+		ALLOW_PAGE_LOCKS = on--, -- can block page
+		--OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
 	)
 ) on [PRIMARY]
 
@@ -90,6 +93,30 @@ create table [dbo].[ApplicationUsers](
 --ADD Phone varchar(14)
 
 
+EXEC sp_rename 'dbo.ApplicationUsers.UserName', 'FirstName', 'COLUMN'; 
+
+
+alter table ApplicationUsers
+alter column FirstName nvarchar(15) not null;
+
+alter table [dbo].[ApplicationUsers]
+ADD LastName varchar(30);
+
+update ApplicationUsers
+set LastName = 'test';
+
+alter table ApplicationUsers
+alter column LastName nvarchar(30) not null;
+
+select * from ApplicationUsers
+
+alter table ApplicationUsers
+add Surename nvarchar(30);
+
+alter table ApplicationUsers
+add Birthday DateTime;
+
+
 -- update column type
 --alter table [dbo].[ApplicationUsers] alter column [PasswordHash] nvarchar(64) not null;
 --alter table [dbo].[ApplicationUsers] alter column [PasswordSalt] nvarchar(128) not null;
@@ -97,3 +124,258 @@ create table [dbo].[ApplicationUsers](
 --update [dbo].[ApplicationUsers] set [PasswordSalt-new] = cast([PasswordHash] as varbinary(128))
 --alter table [dbo].[ApplicationUsers] drop column [PasswordSalt]
 --exec sp_rename 'ApplicationUsers.PasswordSalt-new', 'PasswordSalt'
+
+--======== Language ===========--
+
+create table [dbo].[Languages](
+	[Id] UNIQUEIDENTIFIER not null,
+	[Language] nvarchar(3) not null,
+	[LanguageTitle] nvarchar(25) not null,
+	constraint [PK] primary key clustered(  -- constraint primary key: insert only unique keys (values), clustered - sorted for more faster search by field 
+		[Id] ASC
+	)
+	with(
+		PAD_INDEX = off, -- Specifies the sparseness of an index
+		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
+		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
+		ALLOW_ROW_LOCKS = on, -- can block row
+		ALLOW_PAGE_LOCKS = on -- can block page
+	)
+) on [PRIMARY]
+
+--EXEC sp_rename '[dbo].[Languages].[PK]', '[PK__Languages]';
+
+insert into [Languages]([Id], [Language], [LanguageTitle])
+ values
+	(NEWID(), N'ua', 'Ukrainian'),
+	(NEWID(), N'en', 'English');
+
+select * from Languages
+
+
+--============= PROMOTIONS ============--
+
+create table [dbo].[Promotions](
+	[Id] UNIQUEIDENTIFIER not null,
+	[StartDate] DateTime not null,
+	[EndDate] DateTime not null,
+	[ImagePath] nvarchar(max) not null,
+	constraint [PK_Promotions] primary key clustered(  -- constraint primary key: insert only unique keys (values), clustered - sorted for more faster search by field 
+		[Id] ASC
+	)
+	with(
+		PAD_INDEX = off, -- Specifies the sparseness of an index
+		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
+		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
+		ALLOW_ROW_LOCKS = on, -- can block row
+		ALLOW_PAGE_LOCKS = on -- can block page
+	)
+) on [PRIMARY]
+
+create table [dbo].[PromotionsTranslate](
+	[Id] UNIQUEIDENTIFIER not null,
+	[Title] nvarchar(200) not null,
+	[ShortTitle] nvarchar(200) not null,
+	[Description] nvarchar(max) not null,
+	[ShortDescription] nvarchar(350) not null,
+	primary key clustered([Id] ASC)
+	
+	with(
+		PAD_INDEX = off, -- Specifies the sparseness of an index
+		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
+		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
+		ALLOW_ROW_LOCKS = on, -- can block row
+		ALLOW_PAGE_LOCKS = on -- can block page
+	)
+) on [PRIMARY]
+
+drop table [PromotionsTranslate]
+
+alter table [PromotionsTranslate]
+	Add [PromotionsId] UNIQUEIDENTIFIER
+	constraint [FK_PromotionsTranslate_Promotions]
+		FOREIGN KEY (PromotionsId)
+		REFERENCES Promotions(Id);
+
+
+alter table [PromotionsTranslate]
+	Add [LanguagesId] UNIQUEIDENTIFIER
+	constraint [FK_PromotionsTranslate_Languages]
+		FOREIGN KEY (LanguagesId)
+		REFERENCES Languages(Id);
+
+alter table [PromotionsTranslate]
+	add [ShortDescription] nvarchar(350) not null;
+
+
+insert into [Promotions] ([Id], [StartDate], [EndDate], [ImagePath])
+	values
+	(NEWID(), '20220110 00:00:00 AM', '20220117 12:59:59 PM', '/assets/img/promotions/promotion1.png'),
+	(NEWID(), '20220113 00:00:00 AM', '20220127 12:59:59 PM', '/assets/img/promotions/promotion2.jpg')
+	
+
+select * from Promotions
+
+--70F8FA7A-16BA-4CFD-BEF0-762096A6DB09   en
+--8DDD86B0-7D33-49BD-867F-ECF97CADD392   ua
+
+--A2281995-407B-4F43-9E91-657E2F58C757   1
+--1A19A59E-3E16-4019-BC93-75168278E7A2   2
+
+--cast('A2281995-407B-4F43-9E91-657E2F58C757' as uniqueidentifier), 
+--	cast('8DDD86B0-7D33-49BD-867F-ECF97CADD392' as uniqueidentifier))
+
+use BooksStoreDB;
+
+insert into [PromotionsTranslate] ([Id], [Title], [ShortTitle], [Description], [ShortDescription], [PromotionsId], [LanguagesId])
+	values
+	(NEWID(), 
+	N'Мандрівники', 
+	N'Фото-конкурс', 
+	N'До участі у конкурсі допускаються фото на тему "Селфі з книгою".<br/>У конкурсі можуть брати участь не більше трьох робіт одного автора.<br/>Можна залишати необмежену кількість коментарів, які мають містити розгорнуту думку.<br/>До участі у конкурсі не допускаються:<br/>1. фото еротичного чи порнографічного змісту;<br/>2. фото, які можуть образити інших учасників конкурса;<br/>3. фото рекламного характера;<br/>4. фото, оброблені у фоторедакторі;<br/>5. фото та кліпарти, завантажені з Інтернету: фотографії мають належати саме вам!<br/><br/>Додана вами фотографія модеруватиметься, після чого буде опублікована на сторінці конкурсу (при виконанні вищевказаних правил);<br/>У разі порушення правил фото буде видалено.', 
+	N'Додавай в інстаграм #birdsbook в світлині із книгами та вигравай путівник по Україні',
+	'A2281995-407B-4F43-9E91-657E2F58C757', 
+	'8DDD86B0-7D33-49BD-867F-ECF97CADD392');
+
+	insert into [PromotionsTranslate] ([Id], [Title], [ShortTitle], [Description], [ShortDescription], [PromotionsId], [LanguagesId])
+	values
+	(NEWID(), 
+	N'Travelers', 
+	N'Photo contest', 
+	N'Photos on the subject of "Selfie with a book" are allowed to participate in the contest. <br/> No more than three works by one author can take part in the contest. <br/> You can leave an unlimited number of comments that should contain a detailed opinion. <br/> The following are not allowed to participate in the competition: <br/> 1. photos of erotic or pornographic content; <br/> 2. photos that may offend other contestants; <br/> 3. advertising photo; <br/> 4. photos processed in a photo editor; <br/> 5. photos and cliparts downloaded from the Internet: photos must belong to you! <br/> <br/> The photo you added will be moderated and then published on the contest page (if you follow the above rules); <br/> In case of violation of the rules of the photo will be deleted.', 
+	N'Add to Instagram #birdsbook in the photo with books and win a guide to Ukraine',
+	'A2281995-407B-4F43-9E91-657E2F58C757', 
+	'70F8FA7A-16BA-4CFD-BEF0-762096A6DB09');
+
+
+	insert into [PromotionsTranslate] ([Id], [Title], [ShortTitle], [Description], [ShortDescription], [PromotionsId], [LanguagesId])
+	values
+	(NEWID(), 
+	N'Конкурс нотаток', 
+	N'Пишемо нотатки на тему', 
+	N'- Щомісяця учасникам групи пропонується вибрати тему із запропонованих ведучим, на яку їм цікаво було б написати замітку.<br/>- На початку кожного місяця вибрана тема публікується окремим повідомленням.<br/>- Протягом місяця учасники мають написати нотатку на тему у своєму блозі.<br/>- Під постом, у якому оголошено тему, необхідно опублікувати посилання на свою замітку – це важливо, щоб ніхто не загубився.<br/>- Нотатка має бути свіжою, тобто написаною у відповідному місяці після опублікування посту з темою місяця.<br/>- При публікації нотатки у блозі у графі "Теми" необхідно вказувати тег за принципом нотатка+ поточні місяць і рік, наприклад, нотатка січня 20, нотатка серпня 20, а також загальний тег конкурс нотаток – це теж важливо.<br/>- Нотатка має бути повністю авторська, жодного копіювання. Допускаються цитати із зазначенням авторства.<br/>- Дозволяється використовувати будь-які фото, картинки, відео.<br/>- Приймаються нотатки будь-якого обсягу та у будь-якому форматі.<br/>- Переможець визначається голосуванням за найкращу замітку місяця на початку наступного місяця.<br/>- Конкурс вважається таким, що відбувся за будь-якої кількості нотаток. Але якщо їх буде п''ять і більше, переможець отримає нагороду у профіль', 
+	N'Щомісяця учасники пишуть замітку на задану тему, розширюють кругозір та отримують задоволення. Приєднуйтесь!',
+	'1A19A59E-3E16-4019-BC93-75168278E7A2', 
+	'8DDD86B0-7D33-49BD-867F-ECF97CADD392');
+
+	insert into [PromotionsTranslate] ([Id], [Title], [ShortTitle], [Description], [ShortDescription], [PromotionsId], [LanguagesId])
+	values
+	(NEWID(), 
+	N'Notation competition', 
+	N'Writing notes on the topic', 
+	N'- Each month, group members are asked to choose a topic from the facilitator they would like to write a note on. <br/> - At the beginning of each month, the selected topic is published in a separate message. <br/> - During the month, participants should write a note on the topic in their blog. <br/> - Under the post in which the topic is announced, you need to publish a link to your note - it is important that no one gets lost. <br/> - The note should be fresh, ie written in the month following the post with the topic <br/> - When posting a note in a blog, in the "Topics" column, you must specify a note tag + current month and year, for example, January 20 note, August 20 note, and general note contest tag - this is also important. <br/> - The note must be fully copyrighted, no copying. Quotations indicating authorship are allowed. <br/> - Any photos, pictures, videos are allowed. <br/> - Notes of any size and in any format are accepted. <br/> - The winner is determined by voting for the best note of the month at the beginning of the next month. <br/> - The competition is considered to have taken place with any number of notes. But if there are five or more, the winner will receive a prize in the profile', 
+	N'Each month, participants write a note on a given topic, broaden their horizons and have fun. Join!',
+	'1A19A59E-3E16-4019-BC93-75168278E7A2', 
+	'70F8FA7A-16BA-4CFD-BEF0-762096A6DB09');
+
+	--sp_help  'dbo.PromotionsTranslate'
+
+	select * from [dbo].PromotionsTranslate
+
+
+	--=============update users======================
+
+--	/*
+--Deployment script for BooksStoreDb
+
+--This code was generated by a tool.
+--Changes to this file may cause incorrect behavior and will be lost if
+--the code is regenerated.
+--*/
+
+--GO
+--SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, QUOTED_IDENTIFIER ON;
+
+--SET NUMERIC_ROUNDABORT OFF;
+
+
+--GO
+--:setvar DatabaseName "BooksStoreDb"
+--:setvar DefaultFilePrefix "BooksStoreDb"
+--:setvar DefaultDataPath "C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS01\MSSQL\DATA\"
+--:setvar DefaultLogPath "C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS01\MSSQL\DATA\"
+
+--GO
+--:on error exit
+--GO
+--/*
+--Detect SQLCMD mode and disable script execution if SQLCMD mode is not supported.
+--To re-enable the script after enabling SQLCMD mode, execute the following:
+--SET NOEXEC OFF; 
+--*/
+--:setvar __IsSqlCmdEnabled "True"
+--GO
+--IF N'$(__IsSqlCmdEnabled)' NOT LIKE N'True'
+--    BEGIN
+--        PRINT N'SQLCMD mode must be enabled to successfully execute this script.';
+--        SET NOEXEC ON;
+--    END
+
+
+--GO
+--USE [$(DatabaseName)];
+
+
+--GO
+
+--IF (SELECT OBJECT_ID('tempdb..#tmpErrors')) IS NOT NULL DROP TABLE #tmpErrors
+--GO
+--CREATE TABLE #tmpErrors (Error int)
+--GO
+--SET XACT_ABORT ON
+--GO
+--SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+--GO
+--BEGIN TRANSACTION
+--GO
+--PRINT N'Altering Table [dbo].[ApplicationUsers]...';
+
+
+--GO
+--ALTER TABLE [dbo].[ApplicationUsers] ALTER COLUMN [Email] VARCHAR (255) NOT NULL;
+
+--ALTER TABLE [dbo].[ApplicationUsers] ALTER COLUMN [Phone] VARCHAR (14) NOT NULL;
+
+
+--GO
+--IF @@ERROR <> 0
+--   AND @@TRANCOUNT > 0
+--    BEGIN
+--        ROLLBACK;
+--    END
+
+--IF OBJECT_ID(N'tempdb..#tmpErrors') IS NULL
+--    CREATE TABLE [#tmpErrors] (
+--        Error INT
+--    );
+
+--IF @@TRANCOUNT = 0
+--    BEGIN
+--        INSERT  INTO #tmpErrors (Error)
+--        VALUES                 (1);
+--        BEGIN TRANSACTION;
+--    END
+
+
+--GO
+
+--IF EXISTS (SELECT * FROM #tmpErrors) ROLLBACK TRANSACTION
+--GO
+--IF @@TRANCOUNT>0 BEGIN
+--PRINT N'The transacted portion of the database update succeeded.'
+--COMMIT TRANSACTION
+--END
+--ELSE PRINT N'The transacted portion of the database update failed.'
+--GO
+--IF (SELECT OBJECT_ID('tempdb..#tmpErrors')) IS NOT NULL DROP TABLE #tmpErrors
+--GO
+--GO
+--PRINT N'Update complete.';
+
+
+--GO
+
+	
+
+
+

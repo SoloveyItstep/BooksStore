@@ -151,11 +151,27 @@
 }
 
 #favorite-panel {
-
+    display: flex;
 }
 
 #register-link{
   margin-left: 15%;
+}
+
+#favorite-count {
+  position: relative;
+  left: -50%;
+  right: 31.58%;
+  top: 27.78%;
+  bottom: 33.33%;
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #FFC9BA;
 }
 
 @media (max-width: 1000px){

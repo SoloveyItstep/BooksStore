@@ -1,9 +1,10 @@
 ﻿using Books.Domain.Core.Account;
 using Books.Domain.Core.DbEntities;
+using Books.Domain.Core.DbEntities.PromotionsModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Books.Infrastructure.Data
+namespace Books.Infrastructure.Data.DBContexts
 {
     public class DataContext: IdentityDbContext
     {
@@ -13,5 +14,7 @@ namespace Books.Infrastructure.Data
 
         public DbSet<Book> Books { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Languages> Languages { get; set; }
+        public DbSet<Promotions> Promotions { get; set; }
     }
 }

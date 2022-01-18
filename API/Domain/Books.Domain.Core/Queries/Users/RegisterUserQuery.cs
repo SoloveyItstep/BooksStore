@@ -1,22 +1,25 @@
 ﻿using Books.Domain.Core.DTOs;
 using MediatR;
-using System.ComponentModel.DataAnnotations;
+using System;
 
-namespace Books.Domain.Core.Queries
+namespace Books.Domain.Core.Queries.Users
 {
     public record RegisterUserQuery: IRequest<UserDto>
     {
-        [Required]
-        public string UserName { get; set; }
-        [Required]
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string Surename { get; set; }
+
         public string Password { get; set; }
 
         public string PasswordConfirmation { get; set; }
 
-        [EmailAddress]
         public string Email { get; set; }
 
-        [MinLength(9), MaxLength(14)]
         public string Phone { get; set; }
+
+        public DateTime? Birthday { get; set; }
     }
 }

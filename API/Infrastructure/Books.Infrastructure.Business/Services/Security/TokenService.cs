@@ -18,11 +18,11 @@ namespace Books.Infrastructure.Business.Services.Security
             this._key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtConfig:TokenKey"]));
         }
 
-        public string CreateToken(string userName)
+        public string CreateToken(string email)
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, userName)
+                new Claim(JwtRegisteredClaimNames.Email, email)
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
