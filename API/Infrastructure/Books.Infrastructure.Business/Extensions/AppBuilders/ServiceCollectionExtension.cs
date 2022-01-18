@@ -1,10 +1,9 @@
-﻿using Books.Infrastructure.Business.Handlers.Cqrs.LoginUser;
+﻿using Books.Infrastructure.Business.Configuration;
+using Books.Infrastructure.Business.Handlers.Cqrs.Users.LoginUser;
 using Books.Infrastructure.Business.Middleware;
-using Books.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -15,7 +14,7 @@ namespace Books.Infrastructure.Business.Extensions.AppBuilders
     {
         public static IServiceCollection AddAPIServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<DataContext>(options => options.UseSqlServer(configuration.GetConnectionString("BooksConnectionString")));
+            services.AddDatabases(configuration);
 
             services.AddApplicationInsightsTelemetry(configuration);
 
@@ -31,7 +30,9 @@ namespace Books.Infrastructure.Business.Extensions.AppBuilders
 
             services.AddSwagger();
 
-            services.AddAuth(configuration);  
+            services.AddAuth(configuration);
+
+            services.AddAutoMapper(exp => exp.AddProfile(new AutomapperConfigProfile()));
 
             return services;
         }
@@ -61,12 +62,3 @@ namespace Books.Infrastructure.Business.Extensions.AppBuilders
         }
     }
 }
-
-
-//{
-//    "userName": "test",
-//  "password": "test",
-//  "passwordConfirmation": "test",
-//  "email": "test@test.com",
-//  "phone": "1234567890"
-//}

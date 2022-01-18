@@ -1,6 +1,5 @@
 ﻿using Books.Domain.Core.DTOs;
-using Books.Domain.Core.Queries;
-using Books.Infrastructure.Data;
+using Books.Domain.Core.Queries.Users;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -9,8 +8,8 @@ namespace Books.API.Controllers
 {
     public class AccountController: BaseApiController
     {
-        public AccountController(DataContext context, IMediator mediator)
-           : base(context, mediator)
+        public AccountController(IMediator mediator)
+           : base(mediator)
         { }
 
         [HttpPost("register")]
@@ -37,6 +36,24 @@ namespace Books.API.Controllers
                 return Ok(userDto);
             }
             return BadRequest(userDto);
+        }
+
+        [HttpPut("update")]
+        public async Task<ActionResult<UserDto>> Update(UpdateUserQuery query) 
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return BadRequest("Can't update not authenticated user");
+            }
+            UserDto response = await _mediator.Send(query).ConfigureAwait(false);
+            return Ok(response);
+        }
+
+        [HttpDelete("remove")]
+        public async Task<ActionResult> Delete(string email)
+        {
+            await _mediator.Send(new DeleteUserQuery(email)).ConfigureAwait(false);
+            return Ok();
         }
     }
 }

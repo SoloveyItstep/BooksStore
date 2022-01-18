@@ -1,4 +1,5 @@
 ﻿using Books.Infrastructure.Business.Services.Security;
+using Books.Infrastructure.Data.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Books.Infrastructure.Business.Extensions.AppBuilders
@@ -13,6 +14,13 @@ namespace Books.Infrastructure.Business.Extensions.AppBuilders
                 .AddClasses(x => x.InNamespaces("Books.Infrastructure.Business"))
                 .AsImplementedInterfaces()
                 .WithTransientLifetime());
+
+            services.Scan(scan => scan
+                .FromAssemblyOf<BooksRepository>()
+                .AddClasses()
+                .AsImplementedInterfaces()
+                .WithTransientLifetime());
+
             return services;
         }
     }

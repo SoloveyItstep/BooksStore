@@ -1,7 +1,7 @@
 ﻿using Books.Domain.Core.Account;
 using Books.Domain.Core.DTOs;
-using Books.Domain.Core.Queries;
-using Books.Infrastructure.Data;
+using Books.Domain.Core.Queries.Users;
+using Books.Domain.Interfaces.SQL;
 using Books.Services.Interfaces;
 using MediatR;
 using System;
@@ -11,16 +11,16 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Books.Infrastructure.Business.Handlers.Cqrs.RegisterUser
+namespace Books.Infrastructure.Business.Handlers.Cqrs.Users.RegisterUser
 {
     public class RegisterUserHandler : IRequestHandler<RegisterUserQuery, UserDto>
     {
-        private readonly DataContext _context;
+        private readonly IUserRepository _repository;
         private readonly ITokenService _tokenService;
 
-        public RegisterUserHandler(DataContext context, ITokenService tokenService)
+        public RegisterUserHandler(IUserRepository repository, ITokenService tokenService)
         {
-            this._context = context;
+            this._repository = repository;
             this._tokenService = tokenService;
         }
 
@@ -30,20 +30,23 @@ namespace Books.Infrastructure.Business.Handlers.Cqrs.RegisterUser
             var user = new ApplicationUser
             {
                 Id = new Guid(),
-                UserName = request.UserName,
-                Email = request.Email,
-                Phone = request.Phone,
+                FirstName = request.FirstName.Trim(),
+                LastName = request.LastName.Trim(),
+                Surename = request.Surename?.Trim(),
+                Email = request.Email.Trim(),
+                Phone = request.Phone.Trim(),
                 PasswordHash = await hmac.ComputeHashAsync(new MemoryStream(Encoding.UTF8.GetBytes(request.Password)), cancellationToken).ConfigureAwait(false),
-                PasswordSalt = hmac.Key
+                PasswordSalt = hmac.Key,
+                Birthday = request.Birthday
             };
 
-            await _context.ApplicationUsers.AddAsync(user, cancellationToken).ConfigureAwait(false);
-            await _context.SaveChangesAsync(cancellationToken);
+            await _repository.Create(user, cancellationToken).ConfigureAwait(false);
 
             return new UserDto
             {
-                UserName = request.UserName,
-                Token = _tokenService.CreateToken(user.UserName)
+                FirstName = request.FirstName,
+                Token = _tokenService.CreateToken(user.Email),
+                Email = request.Email
             };
         }
     }

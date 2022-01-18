@@ -1,4 +1,4 @@
-﻿using Books.Infrastructure.Data;
+﻿using Books.Infrastructure.Data.DBContexts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,11 +9,9 @@ namespace Books.API.Controllers
     public class BaseApiController: ControllerBase
     {
         protected readonly IMediator _mediator;
-        protected readonly DataContext _context;
 
-        public BaseApiController(DataContext context, IMediator mediator)
+        public BaseApiController(IMediator mediator)
         {
-            this._context = context;
             this._mediator = mediator;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Books.Domain.Core.Queries;
-using Books.Infrastructure.Data;
+using Books.Domain.Core.Queries.Users;
+using Books.Infrastructure.Data.DBContexts;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +10,8 @@ namespace Books.API.Controllers
 {
     public class ErrorController : BaseApiController
     {
-        public ErrorController(DataContext context, IMediator mediator)
-           : base(context, mediator)
+        public ErrorController( IMediator mediator)
+           : base(mediator)
         { }
 
         [Authorize]
@@ -29,8 +30,9 @@ namespace Books.API.Controllers
         [HttpPost("get500")]
         public ActionResult<Task> Get500()
         {
-            var user = _context.ApplicationUsers.Find(-1);
-            return Ok(user.ToString());
+            //var user = _context.ApplicationUsers.Find(-1);
+            //user.toString();
+            return Ok();
         }
 
         [HttpPost("get404")]
@@ -42,7 +44,7 @@ namespace Books.API.Controllers
         [HttpPost("get400validation")]
         public async Task<ActionResult> Get400Validation()
         {
-            LoginUserQuery query = new() { UserName = string.Empty, Password = "" };
+            LoginUserQuery query = new() { Email = string.Empty, Password = "" };
             var result = await this._mediator.Send(query);
             return Ok(result);
         }

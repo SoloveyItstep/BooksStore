@@ -16,7 +16,7 @@ export class BooksListComponent implements OnInit {
   constructor(private readonly httpService: BooksService, public readonly authService: AuthService) { }
 
   ngOnInit() {
-    this.books = this.httpService.getAllBooks();
+    this.books = this.httpService.getPage(1, 10);
     this.authService.initUser();
   }
 
