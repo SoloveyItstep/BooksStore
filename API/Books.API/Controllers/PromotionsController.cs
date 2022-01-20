@@ -1,5 +1,5 @@
 ﻿using Books.Domain.Core.DbEntities.PromotionsModels;
-using Books.Domain.Core.Queries;
+using Books.Domain.Core.Queries.Promotions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;

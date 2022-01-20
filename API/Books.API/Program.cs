@@ -1,3 +1,4 @@
+using Books.Domain.Core.Identity;
 using Books.Infrastructure.Data;
 using Books.Infrastructure.Data.DBContexts;
 using Microsoft.AspNetCore.Hosting;
@@ -16,6 +17,7 @@ namespace Books.API
         public async static Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
+           
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
             try

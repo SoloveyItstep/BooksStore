@@ -58,8 +58,8 @@ namespace Books.Infrastructure.Business.Handlers.Cqrs.Users.UpdateUser
         {
             var errors = new List<ValidationError>();
 
-            if ((await repository.Get(x => x.Email == query.Email, cancellationToken)) == null)
-                errors.Add(new("User", $"User with such Email ('{query.Email}') does not exist"));
+            if ((await repository.Get(x => x.Id == query.Id, cancellationToken)) == null)
+                errors.Add(new("User", $"User does not exist"));
             return await context.AddErrors("Register User validation", errors).ConfigureAwait(false);
         }
     }

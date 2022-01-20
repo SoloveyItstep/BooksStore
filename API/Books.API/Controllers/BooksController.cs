@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net;
 using Books.Domain.Core.Books.Queries;
+using Microsoft.AspNetCore.Authorization;
+using Books.Domain.Core.Constants;
 
 namespace Books.API.Controllers
 {
@@ -34,6 +36,7 @@ namespace Books.API.Controllers
         //}
 
         [HttpPost("page")]
+        //[Authorize(Roles = RolesList.Admin)]
         [ProducesResponseType(typeof(List<Book>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<List<Book>>> GetPage(BooksPageQuery query)
         {

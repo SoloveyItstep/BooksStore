@@ -1,4 +1,5 @@
-﻿using Books.Infrastructure.Business.Configuration;
+﻿using Books.Infrastructure.Business.Services.BootstrapUser;
+using Books.Infrastructure.Business.Configuration;
 using Books.Infrastructure.Business.Handlers.Cqrs.Users.LoginUser;
 using Books.Infrastructure.Business.Middleware;
 using MediatR;
@@ -18,7 +19,7 @@ namespace Books.Infrastructure.Business.Extensions.AppBuilders
 
             services.AddApplicationInsightsTelemetry(configuration);
 
-            services.AddMediatR(typeof(LoginUserHandler).Assembly); //  Assembly.GetExecutingAssembly()
+            services.AddMediatR(typeof(LoginUserHandler).Assembly);
 
             services.AddInjection();
 
@@ -32,7 +33,9 @@ namespace Books.Infrastructure.Business.Extensions.AppBuilders
 
             services.AddAuth(configuration);
 
-            services.AddAutoMapper(exp => exp.AddProfile(new AutomapperConfigProfile()));
+            services.AddAutoMapper(exp => exp.AddProfile(new AutoMapperConfigProfile()));
+
+            //InitDefaulrUserService.InitUserAndRoles(services.BuildServiceProvider()).GetAwaiter().GetResult();
 
             return services;
         }
@@ -48,7 +51,7 @@ namespace Books.Infrastructure.Business.Extensions.AppBuilders
             return app;
         }
 
-        public static IApplicationBuilder ConfigureExtensions(this IApplicationBuilder app, IWebHostEnvironment env)
+        public static IApplicationBuilder ConfigureExtensions(this IApplicationBuilder app)
         {
             app.UseMiddleware<ErrorMiddleware>();
             app.UseHttpsRedirection();

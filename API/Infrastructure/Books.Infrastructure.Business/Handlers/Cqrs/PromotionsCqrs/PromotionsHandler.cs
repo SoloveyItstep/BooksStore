@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Books.Domain.Core.DTOs;
 using Books.Domain.Core.Enums;
-using Books.Domain.Core.Queries;
+using Books.Domain.Core.Queries.Promotions;
 using Books.Domain.Interfaces.SQL;
 using MediatR;
 using System;

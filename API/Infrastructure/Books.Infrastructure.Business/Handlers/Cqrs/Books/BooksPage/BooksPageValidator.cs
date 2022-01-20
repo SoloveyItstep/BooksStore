@@ -28,7 +28,7 @@ namespace Books.Infrastructure.Business.Handlers.Cqrs.Books.BooksPage
             {
                 errors.Add(new ValidationError("CurrentPage", "Current Page has invalid value"));
             }
-            if (query.PageLength <= 0)
+            if (query.PageSize <= 0)
             {
                 errors.Add(new ValidationError("PageLength", "Page Length has invalid value"));
             }

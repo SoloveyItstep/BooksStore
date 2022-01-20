@@ -1,12 +1,12 @@
-﻿using Books.Domain.Core.Account;
+﻿using Books.Domain.Core.Identity;
 using Books.Domain.Interfaces.SQL;
 using Books.Infrastructure.Data.DBContexts;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,9 +15,12 @@ namespace Books.Infrastructure.Data.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly DataContext _context;
-        public UserRepository(DataContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public UserRepository(DataContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task Create(ApplicationUser entity, CancellationToken cancellationToken = default)
@@ -28,8 +31,7 @@ namespace Books.Infrastructure.Data.Repositories
 
         public async Task Delete(ApplicationUser entity, CancellationToken cancellationToken = default)
         {
-            _context.Remove(entity);
-            await _context.SaveChangesAsync(cancellationToken).ConfigureAwait (false);
+            await _userManager.DeleteAsync(entity).ConfigureAwait(false);
         }
 
         public async Task<List<ApplicationUser>> Find(Func<ApplicationUser, bool> predicate, CancellationToken cancellationToken = default)
@@ -68,6 +70,17 @@ namespace Books.Infrastructure.Data.Repositories
         public async Task<List<ApplicationUser>> GetAll(string language, CancellationToken cancellationToken = default)
         {
             return await GetAll(cancellationToken).ConfigureAwait(false);
+        }
+
+        public async Task<List<ApplicationUser>> GetPage(int current, int pageSize, CancellationToken cancellationToken = default)
+        {
+            return await _context.ApplicationUsers
+                .AsNoTracking()
+                .Skip(pageSize * (current - 1))
+                .Take(pageSize)
+                .ToListAsync(cancellationToken)
+                .ConfigureAwait(false);
+
         }
 
         public async Task Update(ApplicationUser entity, CancellationToken cancellationToken = default)

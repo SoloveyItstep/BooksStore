@@ -2,7 +2,7 @@
 
 namespace Books.Domain.Core.DTOs
 {
-    public class UserDto
+    public class UserShortDto
     {
         public Guid Id { get; set; }
         public string Email { get; set; }
@@ -10,6 +10,5 @@ namespace Books.Domain.Core.DTOs
         public string LastName { get; set; }
         public string Surename { get; set; }
         public string PhoneNumber { get; set; }
-        public DateTime? Birthday { get; set; }
     }
 }

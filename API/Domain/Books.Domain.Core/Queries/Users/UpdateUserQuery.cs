@@ -4,9 +4,9 @@ using System;
 
 namespace Books.Domain.Core.Queries.Users
 {
-    public class UpdateUserQuery: IRequest<UserDto>
+    public class UpdateUserQuery: IRequest<AccountDto>
     {
-        public string Email { get; set; }
+        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Surename { get; set; }

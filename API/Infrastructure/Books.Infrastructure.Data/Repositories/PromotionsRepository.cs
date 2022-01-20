@@ -33,9 +33,10 @@ namespace Books.Infrastructure.Data.Repositories
         {
             return await _context
                 .Promotions
+                .AsNoTracking()
+                .OrderByDescending(x => x.StartDate)
                 .Include(x => x.PromotionsTranslates)
                 .ThenInclude(x => x.Languages)
-                .AsQueryable()
                 .Where(predicate)
                 .ToAsyncEnumerable()
                 .ToListAsync(cancellationToken)
@@ -46,9 +47,10 @@ namespace Books.Infrastructure.Data.Repositories
         {
             return await _context
                 .Promotions
+                .AsNoTracking()
+                .OrderByDescending(x =>x.StartDate)
                 .Include(x => x.PromotionsTranslates.Where(x => string.Equals(x.Languages.Language, language)))
                 .ThenInclude(x => x.Languages)
-                .AsQueryable()
                 .Where(predicate)
                 .ToAsyncEnumerable()
                 .ToListAsync(cancellationToken)
@@ -59,6 +61,8 @@ namespace Books.Infrastructure.Data.Repositories
         {
             return await _context
                 .Promotions
+                .AsNoTracking()
+                .OrderByDescending(x => x.StartDate)
                 .Include(x => x.PromotionsTranslates)
                 .ThenInclude(x => x.Languages)
                 .Include(x => x.PromotionsTranslates)
@@ -70,6 +74,8 @@ namespace Books.Infrastructure.Data.Repositories
         {
             return await _context
                 .Promotions
+                .AsNoTracking()
+                .OrderByDescending(x => x.StartDate)
                 .Include(x => x.PromotionsTranslates.Where(x => string.Equals(x.Languages.Language, language)))
                 .ThenInclude(x => x.Languages)
                 .ToListAsync(cancellationToken)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Books.Infrastructure.Business.Handlers.Cqrs.Users.UpdateUser
 {
-    public class UpdateUserHandler : IRequestHandler<UpdateUserQuery, UserDto>
+    public class UpdateUserHandler : IRequestHandler<UpdateUserQuery, AccountDto>
     {
         private readonly IUserRepository _repository;
         private readonly ITokenService _tokenService;
@@ -19,22 +19,23 @@ namespace Books.Infrastructure.Business.Handlers.Cqrs.Users.UpdateUser
             _tokenService = tokenService;
         }
 
-        public async Task<UserDto> Handle(UpdateUserQuery request, CancellationToken cancellationToken)
+        public async Task<AccountDto> Handle(UpdateUserQuery request, CancellationToken cancellationToken)
         {
-            var user = await _repository.Get(x => x.Email == request.Email, cancellationToken).ConfigureAwait(false);
+            var user = await _repository.Get(x => x.Id == request.Id, cancellationToken).ConfigureAwait(false);
             
-            user.FirstName = request.FirstName;
-            user.LastName = request.LastName;
+            user.FirstName = request.FirstName.Trim();
+            user.LastName = request.LastName.Trim();
             user.Birthday = request.Birthday;
-            user.Phone = request.Phone;
-            user.Surename = request.Surename;
+            user.PhoneNumber = request.Phone.Trim();
+            user.Surename = request.Surename?.Trim();
 
-            await _repository.Update(user).ConfigureAwait(false);
-            return new UserDto
+            await _repository.Update(user, cancellationToken).ConfigureAwait(false);
+            return new AccountDto
             {
-                FirstName = request.FirstName,
-                Token = _tokenService.CreateToken(user.Email),
-                Email = request.Email
+                Id = user.Id,
+                FirstName = user.FirstName,
+                Token = await _tokenService.CreateToken(user),
+                Email = user.Email
             };
         }
     }

@@ -1,9 +1,11 @@
-﻿using Books.Domain.Core.Account;
+﻿using Books.Domain.Core.Constants;
 using Books.Domain.Core.DTOs;
+using Books.Domain.Core.Identity;
 using Books.Domain.Core.Queries.Users;
 using Books.Domain.Interfaces.SQL;
 using Books.Services.Interfaces;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.IO;
 using System.Security.Cryptography;
@@ -13,20 +15,22 @@ using System.Threading.Tasks;
 
 namespace Books.Infrastructure.Business.Handlers.Cqrs.Users.RegisterUser
 {
-    public class RegisterUserHandler : IRequestHandler<RegisterUserQuery, UserDto>
+    public class RegisterUserHandler : IRequestHandler<RegisterUserQuery, AccountDto>
     {
-        private readonly IUserRepository _repository;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ITokenService _tokenService;
 
-        public RegisterUserHandler(IUserRepository repository, ITokenService tokenService)
+        public RegisterUserHandler(UserManager<ApplicationUser> userManager, ITokenService tokenService)
         {
-            this._repository = repository;
-            this._tokenService = tokenService;
+            _userManager = userManager;
+            _tokenService = tokenService;
         }
 
-        public async Task<UserDto> Handle(RegisterUserQuery request, CancellationToken cancellationToken)
+        public async Task<AccountDto> Handle(RegisterUserQuery request, CancellationToken cancellationToken)
         {
             using var hmac = new HMACSHA512();
+            byte[] hash = await hmac.ComputeHashAsync(new MemoryStream(Encoding.UTF8.GetBytes(request.Password)), cancellationToken).ConfigureAwait(false);
+
             var user = new ApplicationUser
             {
                 Id = new Guid(),
@@ -34,20 +38,32 @@ namespace Books.Infrastructure.Business.Handlers.Cqrs.Users.RegisterUser
                 LastName = request.LastName.Trim(),
                 Surename = request.Surename?.Trim(),
                 Email = request.Email.Trim(),
-                Phone = request.Phone.Trim(),
-                PasswordHash = await hmac.ComputeHashAsync(new MemoryStream(Encoding.UTF8.GetBytes(request.Password)), cancellationToken).ConfigureAwait(false),
+                PhoneNumber = request.Phone.Trim(),
+                PasswordHash = Convert.ToBase64String(hash),
                 PasswordSalt = hmac.Key,
-                Birthday = request.Birthday
+                Birthday = request.Birthday,
+                AccessFailedCount = 0,
+                EmailConfirmed = false,
+                NormalizedEmail = request.Email.Trim(),
+                NormalizedUserName = request.Email.Trim(),
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                UserName = request.Email.Trim()
             };
 
-            await _repository.Create(user, cancellationToken).ConfigureAwait(false);
-
-            return new UserDto
+            var result = await _userManager.CreateAsync(user).ConfigureAwait(false);
+            if (result.Succeeded)
             {
-                FirstName = request.FirstName,
-                Token = _tokenService.CreateToken(user.Email),
-                Email = request.Email
-            };
+                await _userManager.AddToRoleAsync(user, RolesList.User).ConfigureAwait(false);
+                return new AccountDto
+                {
+                    Id = user.Id,
+                    FirstName = request.FirstName,
+                    Token = await _tokenService.CreateToken(user),
+                    Email = request.Email
+                };
+            }
+            throw new Exception("Can't create user. Please try again");
         }
     }
 }

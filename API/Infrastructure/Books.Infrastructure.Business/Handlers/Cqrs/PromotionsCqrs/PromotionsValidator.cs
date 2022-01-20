@@ -1,4 +1,4 @@
-﻿using Books.Domain.Core.Queries;
+﻿using Books.Domain.Core.Queries.Promotions;
 using Books.Domain.Core.Validator;
 using Books.Domain.Interfaces.SQL;
 using Books.Infrastructure.Business.Handlers.Extensions;
