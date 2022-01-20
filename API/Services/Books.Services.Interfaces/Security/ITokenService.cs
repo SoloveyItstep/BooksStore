@@ -1,7 +1,10 @@
-﻿namespace Books.Services.Interfaces
+﻿using Books.Domain.Core.Identity;
+using System.Threading.Tasks;
+
+namespace Books.Services.Interfaces
 {
     public interface ITokenService
     {
-        string CreateToken(string userName);
+        Task<string> CreateToken(ApplicationUser user);
     }
 }

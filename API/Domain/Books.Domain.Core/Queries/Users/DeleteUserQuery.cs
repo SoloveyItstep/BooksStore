@@ -1,13 +1,14 @@
 ﻿using MediatR;
+using System;
 
 namespace Books.Domain.Core.Queries.Users
 {
     public class DeleteUserQuery: IRequest<bool>
     {
-        public DeleteUserQuery(string email)
+        public DeleteUserQuery(string id)
         {
-            this.Email = email;
+            this.Id = id;
         }
-        public string Email { get; set; }
+        public string Id { get; set; }
     }
 }

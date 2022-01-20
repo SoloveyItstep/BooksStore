@@ -7,7 +7,7 @@ namespace Books.Domain.Core.Books.Queries
     public class BooksPageQuery: IRequest<List<Book>>
     {
         public int CurrentPage { get; set; }
-        public int PageLength { get; set; }
+        public int PageSize { get; set; }
         public string Language { get; set; }
     }
 }

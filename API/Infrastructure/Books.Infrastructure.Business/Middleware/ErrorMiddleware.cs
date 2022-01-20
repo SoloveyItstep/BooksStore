@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -50,7 +51,8 @@ namespace Books.Infrastructure.Business.Middleware
                             return null;
                         }
                         return apiValidator.Details.Select(x => new APIErrorDetails(x.propertyName, x.errorMessage));
-                    }).Distinct();
+                    }).Distinct()?? new List<APIErrorDetails>();
+                    
                     error = new((int)HttpStatusCode.BadRequest, details);
                     statusCode = HttpStatusCode.BadRequest;
                 }
@@ -58,9 +60,15 @@ namespace Books.Infrastructure.Business.Middleware
                 {
                     var detail = env.IsDevelopment() ?
                         new APIErrorDetails(ex.Message, ex.StackTrace?.ToString()) :
-                        new APIErrorDetails(ex.Message, null);
+                        new APIErrorDetails(ex.Message, String.Empty);
                     error = new(context.Response.StatusCode, new List<APIErrorDetails> { detail });
                 }
+
+                foreach (var item in error.Details)
+                {
+                    Debug.WriteLine(item.Message);
+                }
+
                 var errorText = JsonSerializer.Serialize(error);
                 context.Response.StatusCode = (int)statusCode;
                 context.Response.ContentType = "application/json";

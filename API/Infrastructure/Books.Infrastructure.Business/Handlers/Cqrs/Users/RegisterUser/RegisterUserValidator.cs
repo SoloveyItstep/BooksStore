@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Books.Domain.Interfaces.SQL;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
+using Books.Domain.Core.Identity;
 
 namespace Books.Infrastructure.Business.Handlers.Cqrs.Users.RegisterUser
 {
@@ -14,7 +16,7 @@ namespace Books.Infrastructure.Business.Handlers.Cqrs.Users.RegisterUser
     {
         
 
-        public RegisterUserValidator(IUserRepository repository)
+        public RegisterUserValidator(UserManager<ApplicationUser> userManager)
         {
             //model is empty
             RuleFor(x => x).NotNull();
@@ -22,7 +24,7 @@ namespace Books.Infrastructure.Business.Handlers.Cqrs.Users.RegisterUser
             //user exists
             RuleFor(x => x).MustAsync(async (model, query, context, cancellationToken) =>
             {
-                return await ValidateUser(query, context, repository, cancellationToken).ConfigureAwait(false);
+                return await ValidateUser(query, context, userManager, cancellationToken).ConfigureAwait(false);
             });
 
             // First name
@@ -77,11 +79,10 @@ namespace Books.Infrastructure.Business.Handlers.Cqrs.Users.RegisterUser
         }
         
         private static async Task<bool> ValidateUser(RegisterUserQuery query, ValidationContext<RegisterUserQuery> context,
-            IUserRepository repository, CancellationToken cancellationToken)
+            UserManager<ApplicationUser> userManager, CancellationToken cancellationToken)
         {
             var errors = new List<ValidationError>();
-
-            if((await repository.Get(x => x.Email == query.Email, cancellationToken)) != null)
+            if (await userManager.FindByEmailAsync(query.Email) != null)
                 errors.Add(new ("User", $"User with such Email ('{query.Email}') already exists"));
             return await context.AddErrors("Register User validation", errors).ConfigureAwait(false);
         }

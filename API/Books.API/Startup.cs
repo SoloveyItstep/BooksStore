@@ -24,7 +24,7 @@ namespace Books.API
         public void Configure(IApplicationBuilder app)
         {
             app.ConfigureEnvironmantExtensions(CurrentEnvironment);
-            app.ConfigureExtensions(CurrentEnvironment);
+            app.ConfigureExtensions();
         }
     }
 }

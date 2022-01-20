@@ -19,7 +19,7 @@ namespace Books.Infrastructure.Business.Handlers.Cqrs.Books.BooksPage
 
         public async Task<List<Book>> Handle(BooksPageQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.GetPage(request.CurrentPage, request.PageLength, cancellationToken).ConfigureAwait(false);
+            return await _repository.GetPage(request.CurrentPage, request.PageSize, cancellationToken).ConfigureAwait(false);
         }
     }
 }

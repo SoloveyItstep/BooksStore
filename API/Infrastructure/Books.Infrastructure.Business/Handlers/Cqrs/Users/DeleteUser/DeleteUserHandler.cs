@@ -1,6 +1,7 @@
 ﻿using Books.Domain.Core.Queries.Users;
 using Books.Domain.Interfaces.SQL;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace Books.Infrastructure.Business.Handlers.Cqrs.Users.DeleteUser
 
         public async Task<bool> Handle(DeleteUserQuery request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.Get(x => x.Email == request.Email, cancellationToken).ConfigureAwait(false);
+            var user = await _userRepository.Get(x => x.Id == Guid.Parse(request.Id), cancellationToken).ConfigureAwait(false);
             await _userRepository.Delete(user, cancellationToken).ConfigureAwait(false);
             return true;
         }

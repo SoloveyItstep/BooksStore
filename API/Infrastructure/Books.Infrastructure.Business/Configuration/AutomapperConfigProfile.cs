@@ -1,15 +1,17 @@
 ﻿using AutoMapper;
 using Books.Domain.Core.DbEntities.PromotionsModels;
 using Books.Domain.Core.DTOs;
+using Books.Domain.Core.Identity;
 using System.Linq;
 
 namespace Books.Infrastructure.Business.Configuration
 {
-    public class AutomapperConfigProfile: Profile
+    public class AutoMapperConfigProfile: Profile
     {
-        public AutomapperConfigProfile()
+        public AutoMapperConfigProfile()
         {
             // Promotions
+            
             CreateMap<Promotions, PromotionsDto>()
                 .ForMember(dest => dest.Description, output => output.MapFrom(target =>
                      target.PromotionsTranslates == null || !target.PromotionsTranslates.Any()
@@ -30,7 +32,17 @@ namespace Books.Infrastructure.Business.Configuration
                      target.PromotionsTranslates == null || !target.PromotionsTranslates.Any()
                         ? string.Empty
                         : target.PromotionsTranslates.First().ShortDescription
-                ));
+                ))
+                .ReverseMap();
+
+
+            // Account
+
+            CreateMap<ApplicationUser, UserDto>()
+                .ReverseMap();
+
+            CreateMap<ApplicationUser, UserShortDto>()
+                .ReverseMap();
         }
     }
 }

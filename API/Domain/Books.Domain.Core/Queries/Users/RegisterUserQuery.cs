@@ -4,7 +4,7 @@ using System;
 
 namespace Books.Domain.Core.Queries.Users
 {
-    public record RegisterUserQuery: IRequest<UserDto>
+    public record RegisterUserQuery: IRequest<AccountDto>
     {
         public string FirstName { get; set; }
 

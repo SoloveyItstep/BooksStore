@@ -3,7 +3,7 @@ using Books.Domain.Core.Enums;
 using MediatR;
 using System.Collections.Generic;
 
-namespace Books.Domain.Core.Queries
+namespace Books.Domain.Core.Queries.Promotions
 {
     public  class PromotionsQuery: IRequest<List<PromotionsDto>>
     {
