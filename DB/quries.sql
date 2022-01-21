@@ -7,36 +7,36 @@ use BooksStoreDb -- connect to db schema
 
 set ansi_nulls off; -- set the system to not follow the ISO rules and on select use comparison on null values
 
-create table [dbo].[Books](
-	[Id] UNIQUEIDENTIFIER not null, -- guid id property
-	[Title] nvarchar(250) not null,
-	[Pages] int null,
-	[Description] nvarchar(500) null,
-	[Price] decimal(8,3) not null
-	constraint [PK_Books] primary key clustered(  -- constraint primary key: insert only unique keys (values), clustered - sorted for more faster search by field 
-		[Id] ASC
-	)
-	with(
-		PAD_INDEX = off, -- Specifies the sparseness of an index
-		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
-		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
-		ALLOW_ROW_LOCKS = on, -- can block row
-		ALLOW_PAGE_LOCKS = on--, -- can block page
-		--OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
-	)
-) on [PRIMARY]  -- on [primary] - create table on file group 'primary'
+--create table [dbo].[Books](
+--	[Id] UNIQUEIDENTIFIER not null, -- guid id property
+--	[Title] nvarchar(250) not null,
+--	[Pages] int null,
+--	[Description] nvarchar(500) null,
+--	[Price] decimal(8,3) not null
+--	constraint [PK_Books] primary key clustered(  -- constraint primary key: insert only unique keys (values), clustered - sorted for more faster search by field 
+--		[Id] ASC
+--	)
+--	with(
+--		PAD_INDEX = off, -- Specifies the sparseness of an index
+--		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
+--		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
+--		ALLOW_ROW_LOCKS = on, -- can block row
+--		ALLOW_PAGE_LOCKS = on--, -- can block page
+--		--OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
+--	)
+--) on [PRIMARY]  -- on [primary] - create table on file group 'primary'
 
- -- TEXTIMAGE_ON [PRIMARY] - unlimited fields (such as nvarchar(max), image, etc) create on file group 'primary'
+-- -- TEXTIMAGE_ON [PRIMARY] - unlimited fields (such as nvarchar(max), image, etc) create on file group 'primary'
 
- insert into [Books]([Id], [Title], [Pages], [Price], [Description])
- values
-	(NEWID(), N'Garry Potter on the moon', 20, 10, 'No description'),
-	(NEWID(), N'Michal Jackson - Hystory', 120, 17, 'No description'),
-	(NEWID(), N'ASP.NET Core from scratch', 920, 48.43, 'No description'),
-	(NEWID(), N'Angular - From theory to practice', 80, 21, 'No description'),
-	(NEWID(), N'CLR via C#', 892, 32.23, 'No description');
+-- insert into [Books]([Id], [Title], [Pages], [Price], [Description])
+-- values
+--	(NEWID(), N'Garry Potter on the moon', 20, 10, 'No description'),
+--	(NEWID(), N'Michal Jackson - Hystory', 120, 17, 'No description'),
+--	(NEWID(), N'ASP.NET Core from scratch', 920, 48.43, 'No description'),
+--	(NEWID(), N'Angular - From theory to practice', 80, 21, 'No description'),
+--	(NEWID(), N'CLR via C#', 892, 32.23, 'No description');
 
-select * from Books
+--select * from Books
 
 
 create table [dbo].[ApplicationUsers](
@@ -93,28 +93,28 @@ create table [dbo].[ApplicationUsers](
 --ADD Phone varchar(14)
 
 
-EXEC sp_rename 'dbo.ApplicationUsers.UserName', 'FirstName', 'COLUMN'; 
+--EXEC sp_rename 'dbo.ApplicationUsers.UserName', 'FirstName', 'COLUMN'; 
 
 
-alter table ApplicationUsers
-alter column FirstName nvarchar(15) not null;
+--alter table ApplicationUsers
+--alter column FirstName nvarchar(15) not null;
 
-alter table [dbo].[ApplicationUsers]
-ADD LastName varchar(30);
+--alter table [dbo].[ApplicationUsers]
+--ADD LastName varchar(30);
 
-update ApplicationUsers
-set LastName = 'test';
+--update ApplicationUsers
+--set LastName = 'test';
 
-alter table ApplicationUsers
-alter column LastName nvarchar(30) not null;
+--alter table ApplicationUsers
+--alter column LastName nvarchar(30) not null;
 
-select * from ApplicationUsers
+--select * from ApplicationUsers
 
-alter table ApplicationUsers
-add Surename nvarchar(30);
+--alter table ApplicationUsers
+--add Surename nvarchar(30);
 
-alter table ApplicationUsers
-add Birthday DateTime;
+--alter table ApplicationUsers
+--add Birthday DateTime;
 
 
 -- update column type
@@ -376,6 +376,320 @@ insert into [PromotionsTranslate] ([Id], [Title], [ShortTitle], [Description], [
 --GO
 
 	
+create table [dbo].[Author](
+	[Id] UNIQUEIDENTIFIER not null, -- guid id property
+	[Birthday] DateTime null,
+	[PhotoPath] nvarchar(max) null,
+	constraint [PK_Author] primary key clustered(  -- constraint primary key: insert only unique keys (values), clustered - sorted for more faster search by field 
+		[Id] ASC
+	)
+	with(
+		PAD_INDEX = off, -- Specifies the sparseness of an index
+		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
+		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
+		ALLOW_ROW_LOCKS = on, -- can block row
+		ALLOW_PAGE_LOCKS = on--, -- can block page
+		--OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
+	)
+) on [PRIMARY]  -- on [primary] - create table on file group 'primary'
+
+create table [dbo].[AuthorTranslate](
+	[Id] UNIQUEIDENTIFIER not null,
+	[AuthorName] nvarchar(60) not null,
+	[Description] nvarchar(max) not null,
+	constraint [PK_AuthorTranslate] primary key clustered(  -- constraint primary key: insert only unique keys (values), clustered - sorted for more faster search by field 
+		[Id] ASC
+	)
+	with(
+		PAD_INDEX = off, -- Specifies the sparseness of an index
+		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
+		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
+		ALLOW_ROW_LOCKS = on, -- can block row
+		ALLOW_PAGE_LOCKS = on--, -- can block page
+		--OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
+	)
+) on [PRIMARY]  -- on [primary] - create table on file group 'primary'
+
+alter table [AuthorTranslate]
+	Add [AuthorId] UNIQUEIDENTIFIER
+	constraint [FK_AuthorTranslate_Author]
+		FOREIGN KEY (AuthorId)
+		REFERENCES Author(Id);
+
+
+alter table [AuthorTranslate]
+	Add [LanguagesId] UNIQUEIDENTIFIER
+	constraint [FK_AuthorTranslate_Languages]
+		FOREIGN KEY (LanguagesId)
+		REFERENCES Languages(Id);
+
+--drop table [dbo].[Books]
+
+create table [dbo].[Books](
+	[Id] UNIQUEIDENTIFIER not null, -- guid id property
+	[Pages] int not null,
+	[Price] decimal(8,3) not null,
+	[Code] int not null,
+	[Count] int not null,
+	[Year] int not null,
+	constraint [PK_Books] primary key clustered(  -- constraint primary key: insert only unique keys (values), clustered - sorted for more faster search by field 
+		[Id] ASC
+	)
+	with(
+		PAD_INDEX = off, -- Specifies the sparseness of an index
+		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
+		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
+		ALLOW_ROW_LOCKS = on, -- can block row
+		ALLOW_PAGE_LOCKS = on--, -- can block page
+		--OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
+	)
+) on [PRIMARY]  -- on [primary] - create table on file group 'primary'
+
+--alter table Books
+--	alter column Pages int not null
+
+alter table [Books]
+	Add [AuthorId] UNIQUEIDENTIFIER
+	constraint [FK_Books_Author]
+		FOREIGN KEY (AuthorId)
+		REFERENCES Author(Id);
+
+
+create table [dbo].[BooksImages](
+	Id UNIQUEIDENTIFIER not null,
+	[Path] nvarchar(max) not null,
+	[IsMain] bit not null
+	constraint [PK_BooksImages] primary key clustered(  -- constraint primary key: insert only unique keys (values), clustered - sorted for more faster search by field 
+		[Id] ASC
+	)
+	with(
+		PAD_INDEX = off, -- Specifies the sparseness of an index
+		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
+		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
+		ALLOW_ROW_LOCKS = on, -- can block row
+		ALLOW_PAGE_LOCKS = on--, -- can block page
+		--OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
+	)
+) on [PRIMARY]  -- on [primary] - create table on file group 'primary'
+
+alter table [BooksImages]
+	Add [BookId] UNIQUEIDENTIFIER
+	constraint [FK_BooksImages_Books]
+		FOREIGN KEY (BookId)
+		REFERENCES Books(Id);
+
+create table [dbo].[BooksLanguageTranslate](
+	[Id] UNIQUEIDENTIFIER not null,
+	[Lang] nvarchar(30) not null,
+	constraint [PK_BooksLanguageTranslate] primary key clustered(  -- constraint primary key: insert only unique keys (values), clustered - sorted for more faster search by field 
+		[Id] ASC
+	)
+	with(
+		PAD_INDEX = off, -- Specifies the sparseness of an index
+		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
+		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
+		ALLOW_ROW_LOCKS = on, -- can block row
+		ALLOW_PAGE_LOCKS = on--, -- can block page
+		--OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
+	)
+) on [PRIMARY]  -- on [primary] - create table on file group 'primary'
+
+
+alter table [BooksLanguageTranslate]
+	Add [BookId] UNIQUEIDENTIFIER
+	constraint [FK_BooksLanguageTranslate_Books]
+		FOREIGN KEY (BookId)
+		REFERENCES Books(Id);
+
+alter table [BooksLanguageTranslate]
+	Add [LangId] UNIQUEIDENTIFIER
+	constraint [FK_BooksLanguageTranslate_Languages]
+		FOREIGN KEY (LangId)
+		REFERENCES Languages(Id);
+
+
+create table [dbo].[BooksTypeTranslate](
+	[Id] UNIQUEIDENTIFIER not null,
+	[BookType] nvarchar(50) not null,
+	constraint [PK_BooksTypeTranslate] primary key clustered(  -- constraint primary key: insert only unique keys (values), clustered - sorted for more faster search by field 
+		[Id] ASC
+	)
+	with(
+		PAD_INDEX = off, -- Specifies the sparseness of an index
+		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
+		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
+		ALLOW_ROW_LOCKS = on, -- can block row
+		ALLOW_PAGE_LOCKS = on--, -- can block page
+		--OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
+	)
+) on [PRIMARY]  -- on [primary] - create table on file group 'primary'
+
+alter table [BooksTypeTranslate]
+	Add [BookId] UNIQUEIDENTIFIER
+	constraint [FK_BooksTypeTranslate_Books]
+		FOREIGN KEY (BookId)
+		REFERENCES Books(Id);
+
+alter table [BooksTypeTranslate]
+	Add [LangId] UNIQUEIDENTIFIER
+	constraint [FK_BooksTypeTranslate_Languages]
+		FOREIGN KEY (LangId)
+		REFERENCES Languages(Id);
+
+
+create table [dbo].[BooksCoverTranslate](
+	[Id] UNIQUEIDENTIFIER not null,
+	[Cover] nvarchar(50) not null,
+	constraint [PK_BooksCoverTranslate] primary key clustered(  -- constraint primary key: insert only unique keys (values), clustered - sorted for more faster search by field 
+		[Id] ASC
+	)
+	with(
+		PAD_INDEX = off, -- Specifies the sparseness of an index
+		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
+		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
+		ALLOW_ROW_LOCKS = on, -- can block row
+		ALLOW_PAGE_LOCKS = on--, -- can block page
+		--OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
+	)
+) on [PRIMARY]  -- on [primary] - create table on file group 'primary'
+
+alter table [BooksCoverTranslate]
+	Add [BookId] UNIQUEIDENTIFIER
+	constraint [FK_BooksCoverTranslate_Books]
+		FOREIGN KEY (BookId)
+		REFERENCES Books(Id);
+
+alter table [BooksCoverTranslate]
+	Add [LangId] UNIQUEIDENTIFIER
+	constraint [FK_BooksCoverTranslate_Languages]
+		FOREIGN KEY (LangId)
+		REFERENCES Languages(Id);
+
+
+
+create table [dbo].[BooksFomatTranslate](
+	[Id] UNIQUEIDENTIFIER not null,
+	[Fomat] nvarchar(50) not null,
+	constraint [PK_BooksFomatTranslate] primary key clustered(  -- constraint primary key: insert only unique keys (values), clustered - sorted for more faster search by field 
+		[Id] ASC
+	)
+	with(
+		PAD_INDEX = off, -- Specifies the sparseness of an index
+		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
+		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
+		ALLOW_ROW_LOCKS = on, -- can block row
+		ALLOW_PAGE_LOCKS = on--, -- can block page
+		--OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
+	)
+) on [PRIMARY]  -- on [primary] - create table on file group 'primary'
+
+alter table [BooksFomatTranslate]
+	Add [BookId] UNIQUEIDENTIFIER
+	constraint [FK_BooksFomatTranslate_Books]
+		FOREIGN KEY (BookId)
+		REFERENCES Books(Id);
+
+alter table [BooksFomatTranslate]
+	Add [LangId] UNIQUEIDENTIFIER
+	constraint [FK_BooksFomatTranslate_Languages]
+		FOREIGN KEY (LangId)
+		REFERENCES Languages(Id);
+
+
+
+create table [dbo].[BooksTranslate](
+	[Id] UNIQUEIDENTIFIER not null,
+	[Desc] nvarchar(max) not null,
+	[ShortDesc] nvarchar(300) not null,
+	constraint [PK_BooksTranslate] primary key clustered(  -- constraint primary key: insert only unique keys (values), clustered - sorted for more faster search by field 
+		[Id] ASC
+	)
+	with(
+		PAD_INDEX = off, -- Specifies the sparseness of an index
+		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
+		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
+		ALLOW_ROW_LOCKS = on, -- can block row
+		ALLOW_PAGE_LOCKS = on--, -- can block page
+		--OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
+	)
+) on [PRIMARY]  -- on [primary] - create table on file group 'primary'
+
+alter table [BooksTranslate]
+	Add [BookId] UNIQUEIDENTIFIER
+	constraint [FK_BooksTranslate_Books]
+		FOREIGN KEY (BookId)
+		REFERENCES Books(Id);
+
+alter table [BooksTranslate]
+	Add [LangId] UNIQUEIDENTIFIER
+	constraint [FK_BooksTranslate_Languages]
+		FOREIGN KEY (LangId)
+		REFERENCES Languages(Id);
+
+create table [dbo].[BooksPublishmentHouse](
+	[Id] UNIQUEIDENTIFIER not null,
+	[PublHouse] nvarchar(50) not null,
+	constraint [PK_BooksPublishmentHouse] primary key clustered(  -- constraint primary key: insert only unique keys (values), clustered - sorted for more faster search by field 
+		[Id] ASC
+	)
+	with(
+		PAD_INDEX = off, -- Specifies the sparseness of an index
+		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
+		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
+		ALLOW_ROW_LOCKS = on, -- can block row
+		ALLOW_PAGE_LOCKS = on--, -- can block page
+		--OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
+	)
+) on [PRIMARY]  -- on [primary] - create table on file group 'primary'
+
+alter table [BooksPublishmentHouse]
+	Add [BookId] UNIQUEIDENTIFIER
+	constraint [FK_BooksPublishmentHouse_Books]
+		FOREIGN KEY (BookId)
+		REFERENCES Books(Id);
+
+
+
+create table [dbo].[BooksRating](
+	[Id] UNIQUEIDENTIFIER not null,
+	[Date] DateTime not null,
+	[Message] nvarchar(1000) null,
+	constraint [PK_BooksRating] primary key clustered(  -- constraint primary key: insert only unique keys (values), clustered - sorted for more faster search by field 
+		[Id] ASC
+	)
+	with(
+		PAD_INDEX = off, -- Specifies the sparseness of an index
+		STATISTICS_NORECOMPUTE = off, -- Indicates whether distribution statistics have been recalculated 
+		IGNORE_DUP_KEY = off, -- on inseart not unique key - show error and cancel all operation
+		ALLOW_ROW_LOCKS = on, -- can block row
+		ALLOW_PAGE_LOCKS = on--, -- can block page
+		--OPTIMIZE_FOR_SEQUENTIAL_KEY = off -- set optimization on insert in last page
+	)
+) on [PRIMARY]  -- on [primary] - create table on file group 'primary'
+
+
+alter table [BooksRating]
+	Add [BookId] UNIQUEIDENTIFIER
+	constraint [FK_BooksRating_Books]
+		FOREIGN KEY (BookId)
+		REFERENCES Books(Id);
+
+alter table [BooksRating]
+	Add [UserId] UNIQUEIDENTIFIER
+	constraint [FK_BooksRating_ApplicationUser]
+		FOREIGN KEY (UserId)
+		REFERENCES AspNetUsers(Id);
+
+
+
+
+
+
+
+
+
+
+
 
 
 

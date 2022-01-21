@@ -7,6 +7,7 @@ using System.Net;
 using Books.Domain.Core.Books.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Books.Domain.Core.Constants;
+using Books.Domain.Core.DbEntities.Books;
 
 namespace Books.API.Controllers
 {

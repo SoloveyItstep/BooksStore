@@ -1,5 +1,5 @@
 ﻿using Books.Domain.Core.Books.Queries;
-using Books.Domain.Core.DbEntities;
+using Books.Domain.Core.DbEntities.Books;
 using Books.Domain.Interfaces.SQL;
 using MediatR;
 using System.Collections.Generic;

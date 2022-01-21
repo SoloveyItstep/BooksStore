@@ -1,4 +1,4 @@
-﻿using Books.Domain.Core.DbEntities;
+﻿using Books.Domain.Core.DbEntities.Books;
 using Books.Domain.Interfaces.SQL;
 using Books.Infrastructure.Data.DBContexts;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +21,7 @@ namespace Books.Infrastructure.Data.Repositories
 
         public async Task Create(Book entity, CancellationToken cancellationToken = default)
         {
-            await _context.AddAsync(entity).ConfigureAwait(false);
+            await _context.AddAsync(entity, cancellationToken).ConfigureAwait(false);
             await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
 

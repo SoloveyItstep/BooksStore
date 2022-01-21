@@ -1,4 +1,4 @@
-﻿using Books.Domain.Core.DbEntities;
+﻿using Books.Domain.Core.DbEntities.Books;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

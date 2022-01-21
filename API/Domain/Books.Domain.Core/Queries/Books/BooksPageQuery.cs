@@ -1,4 +1,4 @@
-﻿using Books.Domain.Core.DbEntities;
+﻿using Books.Domain.Core.DbEntities.Books;
 using MediatR;
 using System.Collections.Generic;
 
