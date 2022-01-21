@@ -1,4 +1,5 @@
 ﻿using Books.Domain.Core.DbEntities;
+using Books.Domain.Core.DbEntities.Books;
 using Books.Domain.Core.DbEntities.PromotionsModels;
 using Books.Domain.Core.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
