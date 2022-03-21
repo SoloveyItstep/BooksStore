@@ -12,9 +12,10 @@ import { DeliveryComponent } from './components/about-components/delivery/delive
 import { PaymentInfoComponent } from './components/about-components/payment-info/payment-info.component';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 import { LanguageService } from './middleware/language.service';
+import { MainComponent } from './components/main/main-page/main.component';
 
 const routes: Routes = [
-  { path: ':lang', component: BooksListComponent },
+  { path: ':lang', component: MainComponent },
   { path: ':lang/app-error', component: ErrorComponent },
   { path: ':lang/book/:id', component: BookComponent },
   { path: ':lang/account', component: AccountComponent, canActivate: [AccountLinkGuard] },

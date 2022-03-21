@@ -1,78 +1,83 @@
-<div class="d-flex justify-content-around nav-top">
+<div class="d-flex justify-content-around flex-wrap" [ngClass]="isTop? 'nav-top' : 'nav-min'">
   <!--Logo panel-->
-  <div class="d-flex" id="nightingale" routerLink="{{langService.currentLang}}/">
-    <div id="logo-body"></div>
-    <div id="tail" ></div>
-    <div id="beak"></div>
-    <div id="logo-click-block"></div>
+  <div class="d-flex" [ngClass]="isTop? 'nightingale' : 'nightingale-min'" routerLink="{{langService.currentLang}}/">
+    <div [ngClass]="isTop? 'logo-body' : 'logo-body-min'"></div>
+    <div [ngClass]="isTop? 'tail' : 'tail-min'"></div>
+    <div [ngClass]="isTop? 'beak' : 'beak-min'"></div>
+    <div [ngClass]="isTop? 'logo-click-block' : 'logo-click-block-min'"></div>
   </div>
 
   <!--about panel-->
-  <div class="d-flex flex-column" id="nav-info-panel">
-    <span class="link" routerLink="{{langService.currentLang}}/about-us">{{'aboutUs' | translate}}</span>
-    <span class="link" routerLink="{{langService.currentLang}}/delivery">{{'delivery' | translate}}</span>
-    <span class="link" routerLink="{{langService.currentLang}}/payment">{{'payment' | translate}}</span>
+  <div class="d-flex flex-column" [ngClass]="isTop? 'info-panel' : 'info-panel-min'">
+    <span class="link about-link" routerLink="{{langService.currentLang}}/about-us">{{'aboutUs' | translate}}</span>
+    <span class="link about-link" routerLink="{{langService.currentLang}}/delivery">{{'delivery' | translate}}</span>
+    <span class="link about-link" routerLink="{{langService.currentLang}}/payment">{{'payment' | translate}}</span>
     <div class="d-flex justify-content-between nav-group">
-      <span class="link" (click)="changeLanguage('uk')">{{'lang-uk' | translate}}</span>
-      <span class="link" (click)="changeLanguage('en')">en</span>
+      <span class="link about-link" [class.active]="langService.currentLang == 'uk'" (click)="changeLanguage('uk')">{{'lang-uk' | translate}}</span>
+      <span class="link about-link" [class.active]="langService.currentLang == 'en'" (click)="changeLanguage('en')">en</span>
     </div>
   </div>
 
   <!--books type panel-->
-  <div class="d-flex flex-column" id="nav-books-type-panel">
-    <span class="link nav-books-type-blue">{{'e-books' | translate}}</span>
-    <span class="link nav-books-type-blue">{{'audio books' | translate}}</span>
-    <span class="link nav-books-type-pink">друковані книги</span>
+  <div class="d-flex flex-column" [ngClass]="isTop? 'books-type-panel' : 'books-type-panel-min'">
+    <span class="link nav-books-type">{{'e-books' | translate}}</span>
+    <span class="link nav-books-type">{{'audio books' | translate}}</span>
+    <span class="link nav-books-type">{{'printed-books' | translate}}</span>
   </div>
 
   <!--account panel-->
-  <div class="d-flex flex-column" id="account-panel">
-    <div class="d-flex justify-content-around" id="account-logos">
-      <div id="favorite-panel">
-        <img src="/assets/img/navbar/favorite.svg"/>
-        <div id="favorite-count">{{40}}</div>
-        <!--{{'favorite' | translate}}-->
+  <div class="d-flex flex-column" [ngClass]="isTop? 'account-panel' : 'account-panel-min'">
+    <div class="d-flex justify-content-around account-logos">
+      <div class="link d-flex favorite-panel" title="{{'favorite' | translate}}">
+        <img [ngClass]="isTop? 'favorite-icon' : 'favorite-icon-min'" src="/assets/img/navbar/favorite.svg" />
+        <div [ngClass]="isTop? 'favorite-count' : 'favorite-count-min'" class="favorite-count">{{40}}</div>
       </div>
-      <div id="cart-panel">
-        {{'cart' | translate}}
+      <div class="link d-flex cart-panel" title="{{'cart' | translate}}">
+        <img [ngClass]="isTop? 'cart-icon' : 'cart-icon-min'" src="/assets/img/navbar/wallet.png" />
+        <div [ngClass]="isTop? 'cart-count' : 'cart-count-min'">{{40}}</div>
       </div>
-      <div class="link" id="account-panel" routerLink="{{langService.currentLang}}/account">
-        {{'account' | translate}}
+      <div class="link d-flex account-panel" title="{{'account' | translate}}" routerLink="{{langService.currentLang}}/account">
+        <img [ngClass]="isTop? 'account-icon' : 'account-icon-min'" src="/assets/img/navbar/dude.png" />
       </div>
     </div>
-    <div class="link" id="register-link" routerLink="{{langService.currentLang}}/register">
-      {{'register' | translate}}
+    <div class="link" [ngClass]="isTop? 'register-link' : 'register-link-min'" routerLink="{{langService.currentLang}}/register">
+      <div> {{'register' | translate}} </div>
     </div>
   </div>
-
+  <div class="d-flex catalog-btn-panel" [class.catalog-top]="!isTop">
+    <div class="link d-flex justify-content-center" [ngClass]="isTop? 'catalog-btn' : 'catalog-btn-min'" routerLink="{{langService.currentLang}}/books-list">{{'catalog' | translate}}</div>
+  </div>
 </div>
+ <div [ngClass]="isTop? 'hide' : 'top-empty-block'"></div>
 
 
 
 
 
-<!--<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container">
-    <a class="navbar-brand" href="#">Books store</a>
-    <form *ngIf="!(currentUser | async)" #loginForm="ngForm" class="form-inline my-2 my-lg-0 d-flex" (ngSubmit)="login()" autocomplete="off">
-      <input class="form-control mr-sm-2"
-             name="username"
-             [(ngModel)]="model.username"
-             type="text"
-             placeholder="Username"
-             aria-label="Username">
-      <input class="form-control mr-sm-2"
-             name="password"
-             [(ngModel)]="model.password"
-             type="password"
-             placeholder="Password"
-             aria-label="Password"
-             autocomplete="off">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
-    </form>
-    <div class="form-inline my-2 my-lg-0 d-flex" *ngIf="currentUser | async">
-      <div style="margin-right: 10px;">{{(currentUser | async)?.username}}</div>
-      <button class="btn btn-success" (click)="logout()">Logout</button>
+  <!--<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">Books store</a>
+      <form *ngIf="!(currentUser | async)" #loginForm="ngForm" class="form-inline my-2 my-lg-0 d-flex" (ngSubmit)="login()" autocomplete="off">
+        <input class="form-control mr-sm-2"
+               name="username"
+               [(ngModel)]="model.username"
+               type="text"
+               placeholder="Username"
+               aria-label="Username">
+        <input class="form-control mr-sm-2"
+               name="password"
+               [(ngModel)]="model.password"
+               type="password"
+               placeholder="Password"
+               aria-label="Password"
+               autocomplete="off">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+      </form>
+      <div class="form-inline my-2 my-lg-0 d-flex" *ngIf="currentUser | async">
+        <div style="margin-right: 10px;">{{(currentUser | async)?.username}}</div>
+        <button class="btn btn-success" (click)="logout()">Logout</button>
+      </div>
     </div>
-  </div>
-</nav>-->
+  </nav>
+
+  <div style="height: 600px;"></div>-->

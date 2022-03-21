@@ -27,6 +27,9 @@ import { PageNotFoundComponent } from './shared/components/page-not-found/page-n
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { MainComponent } from './components/main/main-page/main.component';
+import { PromotionsService } from './services/promotions.service';
+import { PromotionsCarouselComponent } from './components/main/promotions-carousel/promotions-carousel.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,9 @@ import { FooterComponent } from './shared/components/footer/footer.component';
     DeliveryComponent,
     PaymentInfoComponent,
     PageNotFoundComponent,
-    FooterComponent
+    FooterComponent,
+    MainComponent,
+    PromotionsCarouselComponent
   ],
   imports: [
     BooksRoutingModule,
@@ -64,6 +69,7 @@ import { FooterComponent } from './shared/components/footer/footer.component';
   providers: [
     AppInsightsService,
     BooksService,
+    PromotionsService,
     AuthService,
     LanguageService,
     { provide: ErrorHandler, useClass: ApplicationinsightsAngularpluginErrorService },

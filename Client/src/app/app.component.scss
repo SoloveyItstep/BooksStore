@@ -1,0 +1,18 @@
+@mixin paddingTopAnimate() {
+  -moz-transition: padding-top .3s ease-in;
+  -o-transition: padding-top .3s ease-in;
+  -webkit-transition: padding-top .3s ease-in;
+  transition: padding-top .3s ease-in;
+}
+
+.body {
+}
+
+.body-max {
+  padding-top: 250px;
+}
+
+.body-min {
+  padding-top: 100px;
+  @include paddingTopAnimate();
+}

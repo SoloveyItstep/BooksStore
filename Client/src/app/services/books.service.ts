@@ -30,6 +30,10 @@ export class BooksService{
       }));
   }
 
+  getPromotions() {
+
+  }
+
   get400() {
     return this.http.post(`${environment.baseUrl}/error/get400`, {}).pipe(catchError(err => of({
       '':''

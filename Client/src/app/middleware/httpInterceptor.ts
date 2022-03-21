@@ -22,7 +22,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError(error => {
         if (error) {
-          this.appInsights.trackError({ id: '1', error: error.error, exception: error.error, severityLevel: SeverityLevel.Error });
+          //this.appInsights.trackError({ id: '1', error: error.error, exception: error.error, severityLevel: SeverityLevel.Error });
           switch (error.status) {
             case 400:
               const err = error?.error?.errors;

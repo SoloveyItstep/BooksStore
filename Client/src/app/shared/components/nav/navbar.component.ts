@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -15,20 +15,33 @@ import { AuthService } from '../../../services/auth.service';
 export class NavbarComponent implements OnInit {
   model: LoginUser = { username: '', password: '' };
   currentUser: Observable<User | null> | undefined;
+  isTop: boolean = true;
 
   constructor(public readonly authService: AuthService,
               public readonly langService: LanguageService,
               private readonly router: Router,
               private readonly translate: TranslateService) { }
 
+  @Output() scrollEvent: EventEmitter<boolean> = new EventEmitter();
+
   ngOnInit(): void {
     this.currentUser = this.authService.currentUser$;
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: any) {
+    let lessThen15 = window.pageYOffset < 15;
+    if (!this.isTop && lessThen15 || this.isTop && !lessThen15) {
+      this.scrollEvent.emit(lessThen15);
+    }
+    this.isTop = lessThen15;
   }
 
   async login() {
     const response = await this.authService.loginUser(this.model);
     console.log(response);
   }
+
   logout() {
     this.authService.logout();
   }

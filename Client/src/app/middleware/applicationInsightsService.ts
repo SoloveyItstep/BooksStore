@@ -23,9 +23,12 @@ export class AppInsightsService {
       }
     });
 
-    this.appInsights.loadAppInsights();
-    this.appInsights.startTrackPage();
-    this.appInsights.startTrackEvent();
+    //this.appInsights.loadAppInsights();
+    //this.appInsights.startTrackPage();
+    //this.appInsights.startTrackEvent();
+
+
+
     //this.appInsights.addTelemetryInitializer(() => false);
   }
 

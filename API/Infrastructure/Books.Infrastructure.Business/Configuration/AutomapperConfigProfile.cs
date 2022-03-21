@@ -12,12 +12,30 @@ namespace Books.Infrastructure.Business.Configuration
         {
             // Promotions
             
-            CreateMap<Promotions, PromotionsDto>()
+            CreateMap<Promotions, PromotionDto>()
                 .ForMember(dest => dest.Description, output => output.MapFrom(target =>
                      target.PromotionsTranslates == null || !target.PromotionsTranslates.Any()
                         ? string.Empty
                         : target.PromotionsTranslates.First().Description
                 ))
+                .ForMember(dest => dest.ShortTitle, output => output.MapFrom(target =>
+                     target.PromotionsTranslates == null || !target.PromotionsTranslates.Any()
+                        ? string.Empty
+                        : target.PromotionsTranslates.First().ShortTitle
+                ))
+                .ForMember(dest => dest.Title, output => output.MapFrom(target =>
+                     target.PromotionsTranslates == null || !target.PromotionsTranslates.Any()
+                        ? string.Empty
+                        : target.PromotionsTranslates.First().Title
+                ))
+                .ForMember(dest => dest.ShortDescription, output => output.MapFrom(target =>
+                     target.PromotionsTranslates == null || !target.PromotionsTranslates.Any()
+                        ? string.Empty
+                        : target.PromotionsTranslates.First().ShortDescription
+                ))
+                .ReverseMap();
+
+            CreateMap<Promotions, PromotionShortDto>()
                 .ForMember(dest => dest.ShortTitle, output => output.MapFrom(target =>
                      target.PromotionsTranslates == null || !target.PromotionsTranslates.Any()
                         ? string.Empty

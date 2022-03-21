@@ -1,0 +1,8 @@
+<span class="promotions-title">АКЦІЇ</span>
+<div ></div>
+
+<div *ngFor="let promo of promotions| async" style="border: solid lightgray .5px; width: 400px;">
+  <h2>{{promo.title}}</h2>
+  <span>{{promo.shortTitle}}</span>
+</div>
+<div style="height: 1200px;"></div>

@@ -1,4 +1,3 @@
-import { Route } from '@angular/compiler/src/core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationStart, Router, Routes } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,6 +13,7 @@ import { LanguageService } from './middleware/language.service';
 export class AppComponent implements OnInit, OnDestroy {
   title: string = 'Books store';
   private routerSubscription: Subscription | undefined;
+  bodyClass: string = "body-max";
 
   constructor(private readonly appInsights: AppInsightsService,
               private readonly router: Router,
@@ -22,10 +22,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.translate.addLangs(LanguageService.languageList);
     this.translate.setDefaultLang(LanguageService.lang);
   }
-    
+
   ngOnInit(): void {
 
-    //event to catch route redirects
+    /**
+     *event to catch route redirects
+     */
     this.routerSubscription = this.router.events.subscribe(event => {
       // if event is on route start
       if (event instanceof NavigationStart) {
@@ -48,8 +50,15 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * 
+   */
+  changeTop($event: boolean) {
+    this.bodyClass = $event ? "body-max" : "body-min";
+  }
+
+  /**
    * Get routes from the Router configuration
-   * @param params array of routes
+   * @param routes array of routes
    */
   private getRoutes(routes: Routes): string[] {
     const urls: string[] = [];

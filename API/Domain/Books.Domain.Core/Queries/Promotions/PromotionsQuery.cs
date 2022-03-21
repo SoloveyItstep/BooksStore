@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Books.Domain.Core.Queries.Promotions
 {
-    public  class PromotionsQuery: IRequest<List<PromotionsDto>>
+    public  class PromotionsQuery: IRequest<List<PromotionDto>>
     {
         public PromotionsType PromotionsType { get; set; }
         public string Language { get; set; }

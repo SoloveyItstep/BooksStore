@@ -1,6 +1,6 @@
 @import "../../styles/constants.scss";
 
-@mixin booksTypeLinks($txtColor) {
+@mixin booksTypeLinks() {
   font-family: Mulish;
   font-style: normal;
   font-weight: 900;
@@ -8,8 +8,11 @@
   line-height: 31px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: $txtColor;
+  color: $textColor;
   margin-bottom: 15px;
+  &:hover{
+    color: $pinkColor;
+  }
 }
 
 @mixin birdText($txtColor) {
@@ -17,7 +20,7 @@
   font-family: Mulish;
   font-style: normal;
   font-weight: 900;
-  font-size: 24px;
+  font-size: 22px;
   line-height: 30px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -26,68 +29,234 @@
   cursor: pointer;
   display: table-row;
   color: $txtColor;
+  transition: font-size .3s ease-in;
+}
+
+@mixin birdTextMin($txtColor) {
+  position: absolute;
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 10px;
+  line-height: 20px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transform: rotate(-20.07deg);
+  z-index: 10;
+  cursor: pointer;
+  display: table-row;
+  color: $txtColor;
+  transition: font-size .3s ease-in;
+}
+
+@mixin transitionDot3Sec() {
+  -webkit-transition: all .3s ease-in;
+  -moz-transition: all .3s ease-in;
+  -o-transition: all .3s ease-in;
+  transition: all .3s ease-in;
+}
+
+@mixin transitionDot2Sec() {
+  -webkit-transition: all .2s ease-in;
+  -moz-transition: all .2s ease-in;
+  -o-transition: all .2s ease-in;
+  transition: all .2s ease-in;
+}
+
+@mixin transitionDot1Sec() {
+  -webkit-transition: all .1s ease-in;
+  -moz-transition: all .1s ease-in;
+  -o-transition: all .1s ease-in;
+  transition: all .1s ease-in;
+}
+
+@mixin transitionDot3SecDot1SecDelay() {
+  -webkit-transition: all .3s ease-in .1s;
+  -moz-transition: all .3s ease-in .1s;
+  -o-transition: all .3s ease-in .1s;
+  transition: all .3s ease-in .1s;
+}
+
+@mixin transitionDot3SecDot2SecDelay() {
+  -webkit-transition: all .3s ease-in .2s;
+  -moz-transition: all .3s ease-in .2s;
+  -o-transition: all .3s ease-in .2s;
+  transition: all .3s ease-in .2s;
+}
+
+@mixin transitionDot1SecDot1SecDelay() {
+  -webkit-transition: all .1s ease-in .1s;
+  -moz-transition: all .1s ease-in .1s;
+  -o-transition: all .1s ease-in .1s;
+  transition: all .1s ease-in .1s;
+}
+
+@mixin transitionDot3SecDot3SecDelay() {
+  -webkit-transition: all .3s ease-in .3s;
+  -moz-transition: all .3s ease-in .3s;
+  -o-transition: all .3s ease-in .3s;
+  transition: all .3s ease-in .3s;
+}
+
+.hide {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  transition: all 0.05s linear;
 }
 
 .nav-top {
-  margin-bottom: 50px;
+  margin-bottom: 10px;
   padding-top: 40px;
-  margin-left: 100px;
+  max-height: 250px;
+  width: 100%;
+  position: fixed;
+  background-color: white;
+  @include transitionDot3Sec();
 }
 
-#nightingale {
-  width: 140px;
-  height: 130px;
+.nav-min {
+  padding-top: 5px;
+  padding-left: 10%;
+  max-height: 70px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  justify-content: space-between;
+  overflow: hidden;
+  background-color: white;
+  z-index: 10;
+  box-shadow: 0px 3px 5px lightgray;
+  @include transitionDot3SecDot1SecDelay();
+}
+
+.top-empty-block {
+  visibility: visible;
+  opacity: 1;
+  height: 70px;
+  width: 100%;
+}
+
+// ============= LOGO ======================
+.nightingale {
+  width: 120px;
+  height: 110px;
   border-radius: 150px;
   overflow: visible;
+  @include transitionDot3Sec();
 }
 
-#logo-body {
+.nightingale-min {
+  width: 50px;
+  height: 50px;
+  border-radius: 150px;
+  overflow: visible;
+  flex-basis: 10%;
+  @include transitionDot3Sec();
+}
+
+.logo-body {
   border-radius: 50%;
-  width: 121.29px;
-  height: 119.74px;
+  width: 111.29px;
+  height: 109.74px;
   background-color: $pinkColor;
+  @include transitionDot3Sec();
 
   &:before {
-    @include birdText(#FFFFFF);
+    @include birdText(white);
     content: 'bird';
-    margin-top: 38px;
-    margin-left: 20px;
+    margin-top: 30px;
+    margin-left: 17px;
+    @include transitionDot3Sec();
   }
 
   &:after {
-    @include birdText(#27365A);
+    @include birdText($darkBlueColor);
     content: 'book';
-    margin-top: 60px;
-    margin-left: 22px;
+    margin-top: 53px;
+    margin-left: 19px;
+    @include transitionDot3Sec();
   }
 }
 
-#tail {
-  margin-left: -126px;
-  margin-top: 50px;
-  width: 131.51px;
-  height: 131.51px;
+.logo-body-min {
+  border-radius: 50%;
+  width: 41.29px;
+  height: 39.74px;
+  background-color: $pinkColor;
+  @include transitionDot3SecDot1SecDelay();
+
+  &:before {
+    @include birdTextMin(white);
+    content: 'bird';
+    margin-top: 6px;
+    margin-left: 6px;
+    @include transitionDot3SecDot1SecDelay();
+  }
+
+  &:after {
+    @include birdTextMin($darkBlueColor);
+    content: 'book';
+    margin-top: 15px;
+    margin-left: 7px;
+    @include transitionDot3SecDot1SecDelay();
+  }
+}
+
+.tail {
+  margin-left: -98px;
+  margin-top: 52px;
+  width: 121.51px;
+  height: 121.51px;
   overflow: hidden;
   transform: rotate(-13.8deg);
+  @include transitionDot3Sec();
 
   &:after {
     position: relative;
     display: block;
     content: "";
-    width: 141.51px;
-    height: 141.51px;
+    width: 111.51px;
+    height: 111.51px;
     background: $pinkColor;
     border-radius: 50%;
     margin-top: -50%;
     overflow: hidden;
+    @include transitionDot3Sec();
   }
 
-  &:hover:after{
-      cursor: pointer;
+  &:hover:after {
+    cursor: pointer;
   }
 }
 
-#beak {
+.tail-min {
+  margin-left: -41px;
+  margin-top: 20px;
+  width: 51.51px;
+  height: 51.51px;
+  overflow: hidden;
+  transform: rotate(-13.8deg);
+  @include transitionDot3SecDot1SecDelay();
+
+  &:after {
+    position: relative;
+    display: block;
+    content: "";
+    width: 46.51px;
+    height: 46.51px;
+    background: $pinkColor;
+    border-radius: 50%;
+    margin-top: -50%;
+    overflow: hidden;
+    @include transitionDot3SecDot1SecDelay();
+  }
+
+  &:hover:after {
+    cursor: pointer;
+  }
+}
+
+.beak {
   width: 0;
   height: 0;
   border-left: 16px solid transparent;
@@ -96,13 +265,30 @@
   margin-left: -20px;
   margin-top: 30px;
   transform: rotate(80deg);
+  @include transitionDot3Sec();
 
   &:hover {
     cursor: pointer;
   }
 }
 
-#logo-click-block {
+.beak-min {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 15px solid $pinkColor;
+  margin-left: -19px;
+  margin-top: 10px;
+  transform: rotate(80deg);
+  @include transitionDot3SecDot1SecDelay();
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.logo-click-block {
   position: absolute;
   background: transparent;
   width: 132px;
@@ -115,8 +301,20 @@
   }
 }
 
-#nav-info-panel{
+// ============= INFO PANEL ======================
+
+.info-panel {
   margin-top: 10px;
+  visibility: visible;
+  opacity: 1;
+  @include transitionDot3SecDot3SecDelay();
+}
+
+.info-panel-min {
+  margin-top: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility .1s ease-in, opacity .1s ease-in;
 }
 
 .nav-about-link {
@@ -130,39 +328,101 @@
   color: $textColor;
 }
 
-#nav-books-type-panel {
+.about-link {
+  color: $textColor;
+  &:hover {
+    color: $pinkColor;
+  }
+}
+
+.active {
+  color: $pinkColor;
+}
+
+// ============= BOOKS TYPE PANEL ======================
+.books-type-panel {
   margin-top: 5px;
+  visibility: visible;
+  opacity: 1;
+  @include transitionDot3SecDot3SecDelay();
 }
 
-.nav-books-type-blue {
-  @include booksTypeLinks($textColor);
+.books-type-panel-min {
+  margin-top: 5px;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility .1s ease-in, opacity .1s ease-in;
 }
 
-.nav-books-type-pink {
-  @include booksTypeLinks($pinkColor);
+.nav-books-type {
+  @include booksTypeLinks();
 }
 
-#account-panel{
-  
+// ============= ACCOUNT LINKS ======================
+
+.account-panel {
+  margin-top: 15px;
+  flex-basis: 10%;
+  width: 300px;
+  @include transitionDot3SecDot2SecDelay();
 }
 
-#account-logos {
+.account-panel-min {
+  margin-top: -30px;
+  flex-basis: 10%;
+  width: 250px;
+  @include transitionDot3SecDot1SecDelay();
+}
+
+.account-logos {
   width: 180px;
 }
 
-#favorite-panel {
-    display: flex;
+.favorite-panel {
 }
 
-#register-link{
-  margin-left: 15%;
+.cart-panel{
 }
 
-#favorite-count {
+.favorite-icon {
+  width: 40px;
+  height: 40px;
+  margin-top: 31px;
+  @include transitionDot3Sec();
+}
+
+.favorite-icon-min {
+  width: 30px;
+  height: 30px;
+  margin-top: 32px;
+  @include transitionDot3SecDot1SecDelay();
+}
+
+.cart-icon {
+  height: 40px;
+  margin-top: 27px;
+  @include transitionDot3SecDot1SecDelay();
+}
+
+.account-icon {
+  height: 40px;
+  margin-top: 16px;
+  @include transitionDot3SecDot1SecDelay();
+}
+
+.account-icon-min {
+  height: 30px;
+  margin-top: 16px;
+  margin-left: -20px;
+  @include transitionDot3SecDot1SecDelay();
+}
+
+.favorite-count {
   position: relative;
+  height: 15px;
   left: -50%;
   right: 31.58%;
-  top: 27.78%;
+  top: 60%;
   bottom: 33.33%;
   font-family: Mulish;
   font-style: normal;
@@ -171,11 +431,151 @@
   line-height: 14px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #FFC9BA;
+  color: $darkBlueTextColor;
 }
 
-@media (max-width: 1000px){
+.favorite-count-min {
+  position: relative;
+  height: 15px;
+  left: -50%;
+  right: 31.58%;
+  top: 62%;
+  bottom: 33.33%;
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: $darkBlueTextColor;
+}
+
+.cart-icon-min {
+  height: 29px;
+  width: 25px;
+  margin-top: 32px;
+  margin-left: -20px;
+  @include transitionDot3SecDot1SecDelay();
+}
+
+.cart-count {
+  position: relative;
+  left: -47%;
+  right: 31.58%;
+  top: 68%;
+  bottom: 33.33%;
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: $darkBlueTextColor;
+  @include transitionDot3Sec();
+}
+
+.cart-count-min {
+  position: relative;
+  left: -98%;
+  right: 31.58%;
+  top: 70%;
+  bottom: 33.33%;
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: $darkBlueTextColor;
+  @include transitionDot3SecDot1SecDelay();
+}
+
+.register-link {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 6px;
+  @include transitionDot3SecDot1SecDelay();
+}
+
+.register-link-min {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 34px;
+  font-size: 14px;
+  @include transitionDot3SecDot1SecDelay();
+}
+
+// ============= CATALOG ======================
+
+.catalog-btn-panel {
+  padding-left: 5%;
+  padding-right: 5%;
+  flex-basis: 100%;
+  @include transitionDot2Sec();
+}
+
+.catalog-btn {
+  width: 100%;
+  height: 60px;
+  padding-top: 10px;
+  margin-bottom: 20px;
+  background: white;
+  border: 1px solid $darkBlueColor;
+  box-sizing: border-box;
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 38px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: $darkBlueColor;
+  @include transitionDot2Sec();
+}
+
+.catalog-btn-min {
+  width: 100%;
+  height: 50px;
+  padding-top: 7px;
+  margin-bottom: 2px;
+  background: white;
+  border: 1px solid $darkBlueColor;
+  box-sizing: border-box;
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 38px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: $darkBlueColor;
+  @include transitionDot2Sec();
+}
+
+.catalog-top {
+  width: 50%;
+  margin-top: -145px;
+  flex-basis: 70%;
+  margin-left: -140px;
+  @include transitionDot3Sec();
+}
+
+@media (max-width: 1000px) {
   .nav-top {
     margin-left: 30px;
   }
+
+  .nav-books-type {
+    font-size: 20px;
+  }
+
+  .catalog-btn {
+    font-size: 25px;
+    padding-top: 5px;
+    height: 50px;
+  }
 }
+

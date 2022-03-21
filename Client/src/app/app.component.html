@@ -1,5 +1,5 @@
-<app-nav></app-nav>
-
-<router-outlet></router-outlet>
-
+<app-nav (scrollEvent)="changeTop($event)"></app-nav>
+<div class="{{bodyClass}}">
+  <router-outlet></router-outlet>
+</div>
 <app-footer></app-footer>
